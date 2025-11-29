@@ -46,7 +46,7 @@ function App() {
         }
 
         return (
-                <div className='relative min-h-screen bg-payzone-navy text-payzone-white'>
+                <div className='relative min-h-screen bg-ali-bg text-ali-ink'>
                         <div className='relative z-50 pt-20'>
                                 <Navbar />
                                 <Routes>
