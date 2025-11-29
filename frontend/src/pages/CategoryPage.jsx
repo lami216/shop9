@@ -69,13 +69,13 @@ const CategoryPage = () => {
                 isFilteringCurrentCategory && !searchLoading && !searchError && searchResults.length === 0;
 
         return (
-                <div className='min-h-screen'>
-                        <div className='relative z-10 mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8'>
-                                <div className='mb-12'>
+                <div className='min-h-screen bg-ali-bg text-ali-ink'>
+                        <div className='relative z-10 mx-auto max-w-5xl px-4 pb-16 pt-10 sm:px-6 lg:px-8'>
+                                <div className='mb-6 rounded-2xl bg-white p-4 shadow-sm sm:p-6'>
                                         <SearchBar variant='category' categorySlug={category} />
                                 </div>
                                 <motion.h1
-                                        className='mb-8 text-center text-4xl font-bold text-payzone-gold sm:text-5xl'
+                                        className='mb-6 text-center text-3xl font-extrabold text-ali-ink sm:text-4xl'
                                         initial={{ opacity: 0, y: -20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.8 }}
@@ -84,7 +84,7 @@ const CategoryPage = () => {
                                 </motion.h1>
 
                                 {searchError && isFilteringCurrentCategory && (
-                                        <div className='mb-6 rounded-3xl border border-red-500/40 bg-red-500/10 p-4 text-center text-sm text-red-200'>
+                                        <div className='mb-6 rounded-2xl border border-ali-orange/40 bg-ali-orange/10 p-4 text-center text-sm text-ali-ink'>
                                                 {searchError}
                                         </div>
                                 )}
@@ -92,7 +92,7 @@ const CategoryPage = () => {
                                 {searchLoading && isFilteringCurrentCategory && (
                                         <div className='mb-6 flex justify-center'>
                                                 <motion.div
-                                                        className='rounded-full border-4 border-payzone-gold/40 border-t-payzone-gold p-6'
+                                                        className='rounded-full border-4 border-ali-rose/30 border-t-ali-red p-6'
                                                         animate={{ rotate: 360 }}
                                                         transition={{ repeat: Infinity, ease: "linear", duration: 1 }}
                                                 />
@@ -100,19 +100,19 @@ const CategoryPage = () => {
                                 )}
 
                                 {showSearchEmptyState && (
-                                        <div className='mb-6 rounded-3xl border border-white/10 bg-payzone-navy p-6 text-center text-lg text-payzone-white/70'>
+                                        <div className='mb-6 rounded-2xl border border-ali-card bg-white p-6 text-center text-lg text-ali-muted'>
                                                 {t("search.noResults", { query: searchQuery.trim() })}
                                         </div>
                                 )}
 
                                 <motion.div
-                                        className='grid grid-cols-2 gap-6 justify-items-center lg:grid-cols-3'
+                                        className='grid grid-cols-2 gap-4 justify-items-center sm:gap-6 lg:grid-cols-3'
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.8, delay: 0.2 }}
                                 >
                                         {!isFilteringCurrentCategory && displayedProducts?.length === 0 && (
-                                                <h2 className='col-span-full text-center text-3xl font-semibold text-white/70'>
+                                                <h2 className='col-span-full text-center text-xl font-semibold text-ali-muted'>
                                                         {t("categoryPage.noProducts")}
                                                 </h2>
                                         )}
