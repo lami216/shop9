@@ -5,6 +5,7 @@ import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import AdminPage from "./pages/AdminPage";
 import CategoryPage from "./pages/CategoryPage";
+import SectionPage from "./pages/SectionPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import SearchPage from "./pages/SearchPage";
 
@@ -60,6 +61,7 @@ function App() {
                                         <Route path='/category/:category' element={<CategoryPage />} />
                                         <Route path='/products/:id' element={<ProductDetailPage />} />
                                         <Route path='/search' element={<SearchPage />} />
+                                        <Route path='/sections/:slug' element={<SectionPage />} />
                                         <Route path='/cart' element={<CartPage />} />
                                         <Route path='/checkout' element={<CheckoutPage />} />
                                         <Route path='/purchase-success' element={<PurchaseSuccessPage />} />

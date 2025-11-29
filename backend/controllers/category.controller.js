@@ -1,5 +1,7 @@
 import Category from "../models/category.model.js";
 import { deleteImage, uploadImage } from "../lib/imagekit.js";
+import { assignDefaultSectionToCategories } from "../lib/sectionDefaults.js";
+import { ensureSectionIdValid } from "./section.controller.js";
 
 const createHttpError = (status, message) => {
         const error = new Error(message);
@@ -60,11 +62,19 @@ const serializeCategory = (category) => {
         return typeof category.toObject === "function" ? category.toObject() : category;
 };
 
+const populateCategorySection = async (category) => {
+        if (!category || typeof category.populate !== "function") return category;
+
+        await category.populate({ path: "section", select: "name slug isActive" });
+        return category;
+};
+
 const sanitizeCreateCategoryPayload = (body) => {
         const payload = body && typeof body === "object" ? body : {};
         const rawName = payload.name;
         const rawDescription = payload.description;
         const rawImage = payload.image;
+        const rawSection = payload.section;
 
         if (typeof rawName !== "string" || !rawName.trim()) {
                 throw createHttpError(400, "Name is required");
@@ -78,10 +88,15 @@ const sanitizeCreateCategoryPayload = (body) => {
                 throw createHttpError(400, "Category image is required");
         }
 
+        if (typeof rawSection !== "string" || !rawSection.trim()) {
+                throw createHttpError(400, "Category section is required");
+        }
+
         return {
                 trimmedName: rawName.trim(),
                 trimmedDescription: typeof rawDescription === "string" ? rawDescription.trim() : "",
                 imageContent: rawImage.toString(),
+                sectionId: rawSection.trim(),
         };
 };
 
@@ -156,11 +171,16 @@ const updateCategoryImage = async (category, image) => {
         await cleanupCategoryImage(category);
         category.imageUrl = uploadResult.secureUrl;
         category.imageFileId = uploadResult.publicId ?? null;
+        category.imagePublicId = uploadResult.publicId ?? null;
 };
 
 export const getCategories = async (req, res) => {
         try {
-                const categories = await Category.find({}).lean();
+                await assignDefaultSectionToCategories();
+
+                const categories = await Category.find({})
+                        .populate({ path: "section", select: "name slug isActive" })
+                        .lean();
                 res.json({ categories });
         } catch (error) {
                 console.log("Error in getCategories controller", error.message);
@@ -170,8 +190,9 @@ export const getCategories = async (req, res) => {
 
 export const createCategory = async (req, res) => {
         try {
-                const { trimmedName, trimmedDescription, imageContent } =
+                const { trimmedName, trimmedDescription, imageContent, sectionId } =
                         sanitizeCreateCategoryPayload(req.body);
+                const section = await ensureSectionIdValid(sectionId);
                 const uploadResult = ensureUploadSuccess(await handleImageUpload(imageContent));
                 const slug = await generateUniqueSlug(trimmedName);
 
@@ -179,11 +200,14 @@ export const createCategory = async (req, res) => {
                         name: trimmedName.toString(),
                         description: trimmedDescription.toString(),
                         slug: slug.toString(),
+                        section: section._id,
                         imageUrl: uploadResult.secureUrl,
                         imageFileId: uploadResult.publicId ?? null,
+                        imagePublicId: uploadResult.publicId ?? null,
                 };
 
                 const category = await Category.create(categoryData);
+                await populateCategorySection(category);
 
                 res.status(201).json(serializeCategory(category));
         } catch (error) {
@@ -198,7 +222,7 @@ export const createCategory = async (req, res) => {
 export const updateCategory = async (req, res) => {
         try {
                 const { id } = req.params;
-                const { name, description, image } = req.body;
+                const { name, description, image, section: sectionId } = req.body;
 
                 const category = await Category.findById(id);
 
@@ -206,11 +230,23 @@ export const updateCategory = async (req, res) => {
                         return res.status(404).json({ message: "Category not found" });
                 }
 
+                if (!category.section) {
+                        const defaultSection = await assignDefaultSectionToCategories();
+                        category.section = defaultSection._id;
+                }
+
                 await applyNameUpdate(category, name);
                 applyDescriptionUpdate(category, description);
                 await updateCategoryImage(category, image);
 
+                if (typeof sectionId === "string" && sectionId.trim()) {
+                        const section = await ensureSectionIdValid(sectionId.trim());
+                        category.section = section._id;
+                }
+
                 await category.save();
+
+                await populateCategorySection(category);
 
                 res.json(serializeCategory(category));
         } catch (error) {

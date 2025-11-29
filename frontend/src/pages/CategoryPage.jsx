@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { useProductStore } from "../stores/useProductStore";
-import { useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import useTranslation from "../hooks/useTranslation";
 import ProductCard from "../components/ProductCard";
@@ -54,14 +54,20 @@ const CategoryPage = () => {
                 }
         }, [searchParams, setQuery, setCategory, category]);
 
+        const activeCategory = useMemo(
+                () => categories.find((item) => item.slug === category),
+                [categories, category]
+        );
+
         const categoryName = useMemo(() => {
-                const match = categories.find((item) => item.slug === category);
-                if (match) {
-                        return match.name;
+                if (activeCategory) {
+                        return activeCategory.name;
                 }
                 const fallback = category ? category.charAt(0).toUpperCase() + category.slice(1) : "";
                 return fallback;
-        }, [categories, category]);
+        }, [activeCategory, category]);
+
+        const categorySection = activeCategory?.section || null;
 
         const isFilteringCurrentCategory = Boolean(searchQuery.trim()) && activeSearchCategory === category;
         const displayedProducts = isFilteringCurrentCategory ? searchResults : products;
@@ -74,6 +80,19 @@ const CategoryPage = () => {
                                 <div className='mb-6 rounded-2xl bg-white p-4 shadow-sm sm:p-6'>
                                         <SearchBar variant='category' categorySlug={category} />
                                 </div>
+                                {categorySection && (
+                                        <div className='mb-3 flex flex-wrap items-center justify-center gap-2 text-sm text-ali-muted'>
+                                                <Link
+                                                        to={`/sections/${categorySection.slug || "general-services"}`}
+                                                        className='font-semibold text-ali-ink transition hover:text-ali-red'
+                                                >
+                                                        {categorySection.name}
+                                                </Link>
+                                                <span className='text-ali-muted'>›</span>
+                                                <span className='font-semibold text-ali-ink'>{categoryName}</span>
+                                        </div>
+                                )}
+
                                 <motion.h1
                                         className='mb-6 text-center text-3xl font-extrabold text-ali-ink sm:text-4xl'
                                         initial={{ opacity: 0, y: -20 }}

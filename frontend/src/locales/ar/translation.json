@@ -54,6 +54,9 @@
                         "categoryCreated": "تم إنشاء الفئة بنجاح",
                         "categoryUpdated": "تم تحديث الفئة بنجاح",
                         "categoryDeleted": "تم حذف الفئة بنجاح",
+                        "sectionCreated": "تم إنشاء القسم بنجاح",
+                        "sectionUpdated": "تم تحديث القسم بنجاح",
+                        "sectionDeleted": "تم حذف القسم بنجاح",
                         "passwordMismatch": "كلمتا المرور غير متطابقتين.",
                         "productAddedToCart": "تمت إضافة المنتج إلى السلة",
                         "couponAppliedSuccess": "تم تطبيق الكوبون بنجاح",
@@ -74,6 +77,8 @@
         "home": {
                 "titleLine1": "اكتشف",
                 "titleHighlight": "أبرز الفئات",
+                "sectionsTitle": "استكشف",
+                "sectionsHighlight": "أقسام علي ستور",
                 "subtitle": "استمتع بتجربة تسوق ناعمة وسريعة مع عروض علي ستور",
                 "featuredTitle": "مميزة"
         },
@@ -106,6 +111,10 @@
                                 "imageHint": "يفضل رفع صورة مربعة للفئة.",
                                 "imageRequired": "يرجى رفع صورة للفئة.",
                                 "nameRequired": "يرجى إدخال اسم الفئة.",
+                                "section": "القسم",
+                                "sectionPlaceholder": "اختر القسم المرتبط",
+                                "sectionHint": "يجب اختيار قسم فعال قبل حفظ الفئة.",
+                                "sectionRequired": "يرجى اختيار قسم للفئة.",
                                 "submitCreate": "إنشاء الفئة",
                                 "submitUpdate": "حفظ التعديلات",
                                 "cancelEdit": "إلغاء التعديل",
@@ -122,11 +131,47 @@
                         "confirmDelete": "هل أنت متأكد أنك تريد حذف هذه الفئة؟"
                 }
         },
+        "sections": {
+                "empty": "لا توجد أقسام متاحة حالياً.",
+                "backToHome": "العودة للرئيسية",
+                "manager": {
+                        "title": "إدارة الأقسام",
+                        "description": "أنشئ الأقسام ورتبها لتجميع الفئات تحت عناوين واضحة.",
+                        "form": {
+                                "name": "اسم القسم",
+                                "description": "الوصف",
+                                "image": "صورة القسم",
+                                "chooseImage": "اختيار صورة",
+                                "changeImage": "تغيير الصورة",
+                                "imageHint": "استخدم صورة عريضة لإبراز القسم.",
+                                "imageRequired": "يرجى رفع صورة للقسم.",
+                                "nameRequired": "يرجى إدخال اسم القسم.",
+                                "order": "الترتيب (اختياري)",
+                                "isActive": "حالة القسم",
+                                "active": "نشط",
+                                "inactive": "غير نشط",
+                                "submitCreate": "إنشاء القسم",
+                                "submitUpdate": "حفظ التعديلات",
+                                "cancelEdit": "إلغاء التعديل"
+                        },
+                        "list": {
+                                "title": "الأقسام الحالية",
+                                "empty": "لا توجد أقسام متاحة بعد.",
+                                "categoryCount": "عدد الفئات: {{count}}",
+                                "actions": {
+                                        "edit": "تعديل",
+                                        "delete": "حذف"
+                                }
+                        },
+                        "confirmDelete": "هل أنت متأكد أنك تريد حذف هذا القسم؟"
+                }
+        },
         "admin": {
                 "dashboardTitle": "لوحة تحكم المشرف",
                 "tabs": {
                         "create": "إنشاء منتج",
                         "products": "المنتجات",
+                        "sections": "الأقسام",
                         "analytics": "الإحصائيات",
                         "orders": "الطلبات",
                         "categories": "الفئات",
@@ -480,6 +525,10 @@
                 "categoryUpdateError": "فشل في تحديث الفئة",
                 "categoryDeleteError": "فشل في حذف الفئة",
                 "categoryFetchError": "فشل في جلب الفئات",
+                "sectionCreateError": "فشل في إنشاء القسم",
+                "sectionUpdateError": "فشل في تحديث القسم",
+                "sectionDeleteError": "فشل في حذف القسم",
+                "sectionFetchError": "فشل في جلب الأقسام",
                 "recommendationsError": "حدث خطأ أثناء جلب التوصيات",
                 "genericError": "حدث خطأ غير متوقع",
                 "logoutError": "حدث خطأ أثناء تسجيل الخروج",

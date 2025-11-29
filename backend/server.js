@@ -10,10 +10,12 @@ import couponRoutes from "./routes/coupon.route.js";
 import paymentRoutes from "./routes/payment.route.js";
 import analyticsRoutes from "./routes/analytics.route.js";
 import categoryRoutes from "./routes/category.route.js";
+import sectionRoutes from "./routes/section.route.js";
 import publicConfigRoutes from "./routes/publicConfig.route.js";
 import orderRoutes from "./routes/order.route.js";
 
 import { connectDB } from "./lib/db.js";
+import { assignDefaultSectionToCategories } from "./lib/sectionDefaults.js";
 
 dotenv.config({ path: "./backend/.env" });
 
@@ -31,6 +33,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/sections", sectionRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/coupons", couponRoutes);
 app.use("/api/payments", paymentRoutes);
@@ -52,7 +55,13 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.listen(PORT, () => {
-  console.log("Server is running on http://localhost:" + PORT);
-  connectDB();
-});
+const startServer = async () => {
+  await connectDB();
+  await assignDefaultSectionToCategories();
+
+  app.listen(PORT, () => {
+    console.log("Server is running on http://localhost:" + PORT);
+  });
+};
+
+startServer();
