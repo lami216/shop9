@@ -33,10 +33,10 @@ const AdminPage = () => {
         );
 
         return (
-                <div className='relative min-h-screen overflow-hidden'>
+                <div className='relative min-h-screen overflow-hidden bg-ali-bg text-ali-ink'>
                         <div className='container relative z-10 mx-auto px-4 py-16'>
                                 <motion.h1
-                                        className='mb-8 text-center text-4xl font-bold text-payzone-gold'
+                                        className='mb-8 text-center text-4xl font-bold text-ali-ink'
                                         initial={{ opacity: 0, y: -20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.8 }}
@@ -52,8 +52,8 @@ const AdminPage = () => {
                                                                 onClick={() => setActiveTab(tab.id)}
                                                                 className={`flex flex-shrink-0 items-center rounded-md px-4 py-2 transition-colors duration-200 ${
                                                                         activeTab === tab.id
-                                                                                ? "bg-payzone-gold text-payzone-navy"
-                                                                                : "bg-white/10 text-white/80 hover:bg-white/20"
+                                                                                ? "bg-payzone-gold text-ali-ink"
+                                                                                : "bg-ali-card text-ali-muted hover:bg-white"
                                                                 }`}
                                                         >
                                                                 <tab.icon className='ml-2 h-5 w-5' />

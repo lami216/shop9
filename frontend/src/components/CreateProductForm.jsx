@@ -396,18 +396,18 @@ const CreateProductForm = () => {
 
         return (
                 <motion.div
-                        className='mx-auto mb-8 max-w-xl rounded-xl border border-payzone-indigo/40 bg-white/5 p-8 shadow-lg backdrop-blur-sm'
+                        className='mx-auto mb-8 max-w-xl rounded-xl border border-ali-card bg-white p-8 shadow-lg backdrop-blur-sm'
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                 >
                         <div className='mb-6 flex items-start justify-between gap-4'>
-                                <h2 className='text-2xl font-semibold text-payzone-gold'>{title}</h2>
+                                <h2 className='text-2xl font-semibold text-ali-ink'>{title}</h2>
                                 {isEditing && (
                                         <button
                                                 type='button'
                                                 onClick={resetForm}
-                                                className='inline-flex items-center gap-2 rounded-md border border-payzone-indigo/40 px-3 py-1 text-sm text-white transition hover:border-payzone-gold'
+                                                className='inline-flex items-center gap-2 rounded-md border border-ali-card px-3 py-1 text-sm text-ali-ink transition hover:border-payzone-gold'
                                         >
                                                 <X className='h-4 w-4' />
                                                 {t("common.actions.cancel")}
@@ -417,7 +417,7 @@ const CreateProductForm = () => {
 
                         <form onSubmit={handleSubmit} className='space-y-4'>
                                 <div>
-                                        <label htmlFor='name' className='block text-sm font-medium text-white/80'>
+                                        <label htmlFor='name' className='block text-sm font-medium text-ali-ink'>
                                                 {t("admin.createProduct.fields.name")}
                                         </label>
                                         <input
@@ -426,13 +426,13 @@ const CreateProductForm = () => {
                                                 name='name'
                                                 value={formState.name}
                                                 onChange={(event) => setFormState({ ...formState, name: event.target.value })}
-                                                className='mt-1 block w-full rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-white placeholder-white/40 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
+                                                className='mt-1 block w-full rounded-md border border-ali-card bg-white px-3 py-2 text-ali-ink placeholder-white/40 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
                                                 required
                                         />
                                 </div>
 
                                 <div>
-                                        <label htmlFor='description' className='block text-sm font-medium text-white/80'>
+                                        <label htmlFor='description' className='block text-sm font-medium text-ali-ink'>
                                                 {t("admin.createProduct.fields.description")}
                                         </label>
                                         <textarea
@@ -443,13 +443,13 @@ const CreateProductForm = () => {
                                                         setFormState({ ...formState, description: event.target.value })
                                                 }
                                                 rows='3'
-                                                className='mt-1 block w-full rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-white placeholder-white/40 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
+                                                className='mt-1 block w-full rounded-md border border-ali-card bg-white px-3 py-2 text-ali-ink placeholder-white/40 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
                                                 required
                                         />
                                 </div>
 
                                 <div>
-                                        <label htmlFor='price' className='block text-sm font-medium text-white/80'>
+                                        <label htmlFor='price' className='block text-sm font-medium text-ali-ink'>
                                                 {t("admin.createProduct.fields.price")}
                                         </label>
                                         <input
@@ -459,21 +459,21 @@ const CreateProductForm = () => {
                                                 value={formState.price}
                                                 onChange={(event) => setFormState({ ...formState, price: event.target.value })}
                                                 step='0.01'
-                                                className='mt-1 block w-full rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-white placeholder-white/40 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
+                                                className='mt-1 block w-full rounded-md border border-ali-card bg-white px-3 py-2 text-ali-ink placeholder-white/40 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
                                                 required
                                         />
                                 </div>
 
-                                <div className='rounded-lg border border-payzone-indigo/40 bg-payzone-navy/50 p-4'>
+                                <div className='rounded-lg border border-ali-card bg-ali-card p-4'>
                                         <div className='flex items-start justify-between gap-4'>
                                                 <div>
                                                         <label
                                                                 htmlFor='discountToggleSwitch'
-                                                                className='text-sm font-medium text-white/80'
+                                                                className='text-sm font-medium text-ali-ink'
                                                         >
                                                                 {t("admin.createProduct.fields.discountToggle")}
                                                         </label>
-                                                        <p className='mt-1 text-xs text-white/60'>
+                                                        <p className='mt-1 text-xs text-ali-muted'>
                                                                 {t("admin.createProduct.fields.discountHint")}
                                                         </p>
                                                 </div>
@@ -494,7 +494,7 @@ const CreateProductForm = () => {
                                                 <div className='mt-4 space-y-2'>
                                                         <label
                                                                 htmlFor='discountPercentage'
-                                                                className='block text-sm font-medium text-white/80'
+                                                                className='block text-sm font-medium text-ali-ink'
                                                         >
                                                                 {t("admin.createProduct.fields.discountPercentage")}
                                                         </label>
@@ -506,11 +506,11 @@ const CreateProductForm = () => {
                                                                 step='0.01'
                                                                 value={formState.discountPercentage}
                                                                 onChange={handleDiscountPercentageChange}
-                                                                className='mt-1 block w-full rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-white placeholder-white/40 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
+                                                                className='mt-1 block w-full rounded-md border border-ali-card bg-white px-3 py-2 text-ali-ink placeholder-white/40 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
                                                                 placeholder={t("admin.createProduct.placeholders.discountPercentage")}
                                                         />
                                                         {discountedPreviewPrice !== null && (
-                                                                <p className='text-xs text-payzone-gold'>
+                                                                <p className='text-xs text-ali-ink'>
                                                                         {t("admin.createProduct.fields.discountPreview", {
                                                                                 price: formatMRU(numericPricePreview || 0),
                                                                                 discount: formState.discountPercentage || "0",
@@ -523,7 +523,7 @@ const CreateProductForm = () => {
                                 </div>
 
                                 <div>
-                                        <label htmlFor='category' className='block text-sm font-medium text-white/80'>
+                                        <label htmlFor='category' className='block text-sm font-medium text-ali-ink'>
                                                 {t("admin.createProduct.fields.category")}
                                         </label>
                                         <select
@@ -533,7 +533,7 @@ const CreateProductForm = () => {
                                                 onChange={(event) =>
                                                         setFormState({ ...formState, category: event.target.value })
                                                 }
-                                                className='mt-1 block w-full rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-white focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
+                                                className='mt-1 block w-full rounded-md border border-ali-card bg-white px-3 py-2 text-ali-ink focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
                                                 required
                                         >
                                                 <option value=''>
@@ -559,17 +559,17 @@ const CreateProductForm = () => {
                                         />
                                         <label
                                                 htmlFor='images'
-                                                className={`inline-flex items-center gap-2 rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 text-sm font-medium text-white transition duration-300 focus:outline-none focus:ring-2 focus:ring-payzone-indigo ${
+                                                className={`inline-flex items-center gap-2 rounded-md border border-ali-card bg-white px-3 py-2 text-sm font-medium text-ali-ink transition duration-300 focus:outline-none focus:ring-2 focus:ring-payzone-indigo ${
                                                         totalImages >= MAX_IMAGES
                                                                 ? "cursor-not-allowed opacity-60"
-                                                                : "cursor-pointer hover:border-payzone-gold hover:bg-payzone-navy/80"
+                                                                : "cursor-pointer hover:border-payzone-gold hover:bg-ali-card"
                                                 }`}
                                                 aria-disabled={totalImages >= MAX_IMAGES}
                                         >
                                                 <Upload className='h-5 w-5' />
                                                 {t("admin.createProduct.buttons.uploadImages")}
                                         </label>
-                                        <span className='mr-3 text-sm text-white/60'>
+                                        <span className='mr-3 text-sm text-ali-muted'>
                                                 {totalImages} / {MAX_IMAGES} {t("admin.createProduct.fields.images")}
                                         </span>
                                 </div>
@@ -591,22 +591,22 @@ const CreateProductForm = () => {
                                                                         className={`relative overflow-hidden rounded-lg border ${
                                                                                 isCover
                                                                                         ? "border-payzone-gold"
-                                                                                        : "border-payzone-indigo/40"
-                                                                        } bg-payzone-navy/60`}
+                                                                                        : "border-ali-card"
+                                                                        } bg-white`}
                                                                 >
                                                                         <img
                                                                                 src={item.url}
                                                                                 alt={`معاينة ${item.index + 1}`}
                                                                                 className='h-32 w-full object-cover'
                                                                         />
-                                                                        <div className='absolute inset-x-0 bottom-0 flex items-center justify-between bg-black/60 px-2 py-1 text-xs text-white'>
+                                                                        <div className='absolute inset-x-0 bottom-0 flex items-center justify-between bg-black/60 px-2 py-1 text-xs text-ali-ink'>
                                                                                 <button
                                                                                         type='button'
                                                                                         onClick={() => handleSetCover(item.type, item.index)}
                                                                                         className={`inline-flex items-center gap-1 ${
                                                                                                 isCover
-                                                                                                        ? "text-payzone-gold"
-                                                                                                        : "text-white"
+                                                                                                        ? "text-ali-ink"
+                                                                                                        : "text-ali-ink"
                                                                                         }`}
                                                                                 >
                                                                                         <Star className='h-3 w-3' />

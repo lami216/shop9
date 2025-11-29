@@ -115,7 +115,7 @@ const AdminOrders = () => {
 
         if (loading) {
                 return (
-                        <div className='flex justify-center py-16 text-white/80'>
+                        <div className='flex justify-center py-16 text-ali-muted'>
                                 {t("common.status.processing")}
                         </div>
                 );
@@ -124,7 +124,7 @@ const AdminOrders = () => {
         if (!orders.length) {
                 return (
                         <motion.div
-                                className='rounded-xl border border-white/10 bg-white/5 p-8 text-center text-white/70'
+                                className='rounded-xl border border-ali-card bg-white p-8 text-center text-ali-muted shadow-sm'
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                         >
@@ -135,24 +135,24 @@ const AdminOrders = () => {
 
         return (
                 <motion.div
-                        className='space-y-6 rounded-xl border border-payzone-indigo/40 bg-white/5 p-6 text-white shadow-lg backdrop-blur-sm'
+                        className='space-y-6 rounded-xl border border-ali-card bg-white p-6 text-ali-ink shadow-sm'
                         initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
                 >
                         <div className='flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'>
-                                <h2 className='text-2xl font-semibold text-payzone-gold'>{t("admin.orders.title")}</h2>
+                                <h2 className='text-2xl font-semibold text-ali-ink'>{t("admin.orders.title")}</h2>
                                 <button
                                         type='button'
                                         onClick={fetchOrders}
-                                        className='inline-flex items-center rounded-lg border border-payzone-gold/40 px-4 py-2 text-sm font-medium text-payzone-gold transition hover:bg-payzone-gold/10'
+                                        className='inline-flex items-center rounded-lg border border-ali-card px-4 py-2 text-sm font-medium text-ali-muted transition hover:bg-ali-card'
                                 >
                                         {t("admin.orders.refresh")}
                                 </button>
                         </div>
 
                         <div className='overflow-x-auto'>
-                                <table className='min-w-full divide-y divide-white/10 text-right text-sm text-white'>
-                                        <thead className='bg-payzone-navy/60 text-xs uppercase tracking-wide text-white/60'>
+                                <table className='min-w-full divide-y divide-ali-card text-right text-sm text-ali-ink'>
+                                        <thead className='bg-ali-card text-xs uppercase tracking-wide text-ali-muted'>
                                                 <tr>
                                                         <th className='px-4 py-3 font-medium'>{t("admin.orders.table.orderNumber")}</th>
                                                         <th className='px-4 py-3 font-medium'>{t("admin.orders.table.customer")}</th>
@@ -162,7 +162,7 @@ const AdminOrders = () => {
                                                         <th className='px-4 py-3 font-medium'>{t("admin.orders.table.actions")}</th>
                                                 </tr>
                                         </thead>
-                                        <tbody className='divide-y divide-white/5'>
+                                        <tbody className='divide-y divide-ali-card'>
                                                 {orders.map((order) => {
                                                         const itemCount = order.items?.reduce(
                                                                 (sum, item) => sum + Number(item.quantity || 0),
@@ -181,32 +181,32 @@ const AdminOrders = () => {
                                                                 : "-";
 
                                                         return (
-                                                                <tr key={order._id} className='bg-white/5 hover:bg-white/10'>
-                                                                        <td className='px-4 py-4 align-middle text-base font-semibold text-payzone-gold'>
+                                                                <tr key={order._id} className='bg-white hover:bg-ali-card/60'>
+                                                                        <td className='px-4 py-4 align-middle text-base font-semibold text-ali-ink'>
                                                                                 {orderNumberDisplay}
                                                                         </td>
                                                                         <td className='px-4 py-4 align-middle'>
                                                                                 <div className='flex flex-col text-sm'>
-                                                                                        <span className='font-semibold text-white'>
+                                                                                        <span className='font-semibold text-ali-ink'>
                                                                                                 {order.customerName}
                                                                                         </span>
-                                                                                        <span className='text-xs text-white/70'>
+                                                                                        <span className='text-xs text-ali-muted'>
                                                                                                 {order.phone}
                                                                                         </span>
                                                                                 </div>
                                                                         </td>
                                                                         <td className='px-4 py-4 align-middle'>
                                                                                 <div className='flex flex-col items-end'>
-                                                                                        <span className='font-semibold text-white'>{formattedTotal}</span>
-                                                                                        <span className='text-xs text-white/60'>
+                                                                                        <span className='font-semibold text-ali-ink'>{formattedTotal}</span>
+                                                                                        <span className='text-xs text-ali-muted'>
                                                                                                 {t("admin.orders.itemCount", { count: formattedCount })}
                                                                                         </span>
-                                                                                        <span className='text-[11px] text-payzone-gold/80'>{paymentLabel}</span>
+                                                                                        <span className='text-[11px] text-ali-muted'>{paymentLabel}</span>
                                                                                 </div>
                                                                         </td>
                                                                         <td className='px-4 py-4 align-middle'>
                                                                                 <select
-                                                                                        className='min-w-[10rem] rounded-lg border border-white/20 bg-payzone-navy/60 px-3 py-2 text-sm text-white focus:border-payzone-gold focus:outline-none'
+                                                                                        className='min-w-[10rem] rounded-lg border border-ali-card bg-white px-3 py-2 text-sm text-ali-ink focus:border-ali-muted focus:outline-none'
                                                                                         value={order.status}
                                                                                         onChange={(event) => handleStatusChange(order, event.target.value)}
                                                                                         disabled={order.status === "cancelled" || updatingOrderId === order._id}
@@ -224,12 +224,12 @@ const AdminOrders = () => {
                                                                                         </option>
                                                                                 </select>
                                                                                 {order.status === "cancelled" && (
-                                                                                        <span className='mt-2 block text-xs text-red-300'>
+                                                                                        <span className='mt-2 block text-xs text-red-600'>
                                                                                                 {t("admin.orders.statusNotes.cancelled")}
                                                                                         </span>
                                                                                 )}
                                                                         </td>
-                                                                        <td className='px-4 py-4 align-middle text-sm text-white/80'>
+                                                                        <td className='px-4 py-4 align-middle text-sm text-ali-muted'>
                                                                                 {createdAt}
                                                                         </td>
                                                                         <td className='px-4 py-4 align-middle text-left'>
@@ -238,7 +238,7 @@ const AdminOrders = () => {
                                                                                                 type='button'
                                                                                                 onClick={() => handleCancelOrder(order)}
                                                                                                 disabled={order.status === "cancelled" || updatingOrderId === order._id}
-                                                                                                className='rounded-lg border border-red-400/60 px-3 py-2 text-xs font-medium text-red-200 transition hover:bg-red-500/20 disabled:cursor-not-allowed disabled:opacity-60'
+                                                                                                className='rounded-lg border border-red-500/30 px-3 py-2 text-xs font-medium text-red-700 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60'
                                                                                         >
                                                                                                 {t("admin.orders.actions.cancel")}
                                                                                         </button>
