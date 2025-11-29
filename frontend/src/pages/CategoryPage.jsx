@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import useTranslation from "../hooks/useTranslation";
 import ProductCard from "../components/ProductCard";
 import { useCategoryStore } from "../stores/useCategoryStore";
-import SearchBar from "../components/SearchBar";
 import { useSearchStore } from "../stores/useSearchStore";
 
 const CategoryPage = () => {
@@ -77,9 +76,6 @@ const CategoryPage = () => {
         return (
                 <div className='min-h-screen bg-ali-bg text-ali-ink'>
                         <div className='relative z-10 mx-auto max-w-5xl px-4 pb-16 pt-10 sm:px-6 lg:px-8'>
-                                <div className='mb-6 rounded-2xl bg-white p-4 shadow-sm sm:p-6'>
-                                        <SearchBar variant='category' categorySlug={category} />
-                                </div>
                                 {categorySection && (
                                         <div className='mb-3 flex flex-wrap items-center justify-center gap-2 text-sm text-ali-muted'>
                                                 <Link

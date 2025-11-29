@@ -35,7 +35,7 @@ const HomePage = () => {
                                                         {t("home.sectionsTitle")} <span className='bg-gradient-to-r from-ali-red to-ali-rose bg-clip-text text-transparent'>{t("home.sectionsHighlight")}</span>
                                                 </h2>
                                         </div>
-                                        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+                                        <div className='grid grid-cols-2 gap-4 sm:grid-cols-3'>
                                                 {sections.length === 0 && !sectionsLoading && (
                                                         <div className='col-span-full text-center text-ali-muted'>
                                                                 {t("sections.empty")}
