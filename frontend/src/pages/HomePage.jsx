@@ -4,7 +4,6 @@ import CategoryItem from "../components/CategoryItem";
 import { useProductStore } from "../stores/useProductStore";
 import FeaturedProducts from "../components/FeaturedProducts";
 import { useCategoryStore } from "../stores/useCategoryStore";
-import SearchBar from "../components/SearchBar";
 import BannerSlider from "../components/BannerSlider";
 
 const HomePage = () => {
@@ -28,10 +27,6 @@ const HomePage = () => {
                                         <div className='rounded-2xl bg-white p-4 text-center text-lg font-semibold text-ali-ink shadow-sm sm:p-5'>
                                                 مرحباً بكم في علي ستور
                                         </div>
-                                </div>
-
-                                <div className='mb-6'>
-                                        <SearchBar />
                                 </div>
 
                                 <div className='space-y-4'>

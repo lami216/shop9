@@ -34,14 +34,14 @@ const ProductsList = ({ onEdit }) => {
 
         return (
                 <motion.div
-                        className='mx-auto max-w-4xl rounded-xl border border-payzone-indigo/40 bg-white/5 shadow-lg backdrop-blur-sm'
+                        className='mx-auto max-w-4xl rounded-xl border border-ali-card bg-white shadow-lg backdrop-blur-sm'
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                 >
                         <div className='overflow-x-auto'>
-                                <table className='min-w-full divide-y divide-white/10'>
-                                <thead className='bg-payzone-navy/80'>
+                                <table className='min-w-full divide-y divide-ali-card'>
+                                <thead className='bg-ali-card'>
                                         <tr>
                                                 {[ 
                                                         t("admin.productsTable.headers.product"),
@@ -54,7 +54,7 @@ const ProductsList = ({ onEdit }) => {
                                                         <th
                                                                 key={heading}
                                                                 scope='col'
-                                                                className='px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-white/70'
+                                                                className='px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-ali-muted'
                                                         >
                                                                 {heading}
                                                         </th>
@@ -62,27 +62,27 @@ const ProductsList = ({ onEdit }) => {
                                         </tr>
                                 </thead>
 
-                                <tbody className='divide-y divide-white/10 bg-white/5'>
+                                <tbody className='divide-y divide-ali-card bg-white'>
                                         {products?.map((product) => (
-                                                <tr key={product._id} className='transition-colors duration-200 hover:bg-payzone-navy/40'>
+                                                <tr key={product._id} className='transition-colors duration-200 hover:bg-ali-card'>
                                                         <td className='whitespace-nowrap px-6 py-4'>
                                                                 <div className='flex items-center gap-3'>
-                                                                        <div className='h-10 w-10 flex-shrink-0 overflow-hidden rounded-full ring-1 ring-payzone-indigo/40'>
+                                                                        <div className='h-10 w-10 flex-shrink-0 overflow-hidden rounded-full ring-1 ring-ali-card'>
                                                                                 <img className='h-full w-full object-cover' src={product.image} alt={product.name} />
                                                                         </div>
                                                                         <div>
-                                                                                <div className='text-sm font-medium text-white'>{product.name}</div>
+                                                                                <div className='text-sm font-medium text-ali-ink'>{product.name}</div>
                                                                         </div>
                                                                 </div>
                                                         </td>
                                                         <td className='whitespace-nowrap px-6 py-4'>
                                                                 <div className='flex flex-col items-end text-sm'>
                                                                         {product.isDiscounted && product.discountPercentage > 0 ? (
-                                                                                <span className='text-xs text-white/60 line-through'>
+                                                                                <span className='text-xs text-ali-muted line-through'>
                                                                                         {formatMRU(product.price)}
                                                                                 </span>
                                                                         ) : (
-                                                                                <span className='text-payzone-gold'>
+                                                                                <span className='text-ali-ink'>
                                                                                         {formatMRU(product.price)}
                                                                                 </span>
                                                                         )}
@@ -91,19 +91,19 @@ const ProductsList = ({ onEdit }) => {
                                                         <td className='whitespace-nowrap px-6 py-4'>
                                                                 {product.isDiscounted && product.discountPercentage > 0 ? (
                                                                         <div className='flex items-center justify-end gap-2'>
-                                                                                <span className='rounded-full bg-red-500/20 px-2 py-1 text-xs font-semibold text-red-200'>
+                                                                                <span className='rounded-full bg-red-100 px-2 py-1 text-xs font-semibold text-red-700'>
                                                                                         -{product.discountPercentage}%
                                                                                 </span>
-                                                                                <span className='text-sm text-red-200'>
+                                                                                <span className='text-sm text-red-700'>
                                                                                         {formatMRU(product.discountedPrice ?? product.price)}
                                                                                 </span>
                                                                         </div>
                                                                 ) : (
-                                                                        <span className='text-sm text-white/60'>—</span>
+                                                                        <span className='text-sm text-ali-muted'>—</span>
                                                                 )}
                                                         </td>
                                                         <td className='whitespace-nowrap px-6 py-4'>
-                                                                <div className='text-sm text-white/70'>{product.category}</div>
+                                                                <div className='text-sm text-ali-muted'>{product.category}</div>
                                                         </td>
                                                         <td className='whitespace-nowrap px-6 py-4'>
                                                                 <button
@@ -111,7 +111,7 @@ const ProductsList = ({ onEdit }) => {
                                                                         className={`rounded-full p-1 transition-colors duration-200 ${
                                                                                 product.isFeatured
                                                                                         ? "bg-payzone-gold text-payzone-navy"
-                                                                                        : "bg-payzone-navy/60 text-white/70"
+                                                                                        : "bg-white text-ali-muted"
                                                                         } hover:ring-2 hover:ring-payzone-indigo/40`}
                                                                 >
                                                                         <Star className='h-5 w-5' />
@@ -121,7 +121,7 @@ const ProductsList = ({ onEdit }) => {
                                                                 <div className='flex items-center justify-end gap-4'>
                                                                         <button
                                                                                 onClick={() => handleEdit(product)}
-                                                                                className='inline-flex items-center text-white/80 transition-colors duration-200 hover:text-payzone-gold'
+                                                                                className='inline-flex items-center text-ali-ink transition-colors duration-200 hover:text-ali-ink'
                                                                         >
                                                                                 <Edit3 className='h-5 w-5' />
                                                                         </button>

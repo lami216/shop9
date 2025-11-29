@@ -25,7 +25,7 @@ const LoginPage = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8 }}
                         >
-                                <h2 className='mt-6 text-center text-3xl font-extrabold text-payzone-gold'>
+                                <h2 className='mt-6 text-center text-3xl font-extrabold text-ali-ink'>
                                         {t("auth.login.title")}
                                 </h2>
                         </motion.div>
@@ -36,15 +36,15 @@ const LoginPage = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8, delay: 0.2 }}
                         >
-                                <div className='rounded-xl border border-payzone-indigo/40 bg-white/5 py-8 px-4 shadow backdrop-blur-sm sm:px-10'>
+                                <div className='rounded-xl border border-ali-card bg-white py-8 px-4 shadow-sm sm:px-10'>
                                         <form onSubmit={handleSubmit} className='space-y-6'>
                                                 <div>
-                                                        <label htmlFor='email' className='block text-sm font-medium text-white/80'>
+                                                        <label htmlFor='email' className='block text-sm font-medium text-ali-ink'>
                                                                 {t("auth.login.email")}
                                                         </label>
                                                         <div className='relative mt-1 rounded-md shadow-sm'>
                                                                 <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3'>
-                                                                        <Mail className='h-5 w-5 text-white/50' aria-hidden='true' />
+                                                                        <Mail className='h-5 w-5 text-ali-muted' aria-hidden='true' />
                                                                 </div>
                                                                 <input
                                                                         id='email'
@@ -52,19 +52,19 @@ const LoginPage = () => {
                                                                         required
                                                                         value={email}
                                                                         onChange={(e) => setEmail(e.target.value)}
-                                                                        className='block w-full rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 pr-10 text-white placeholder-white/40 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo sm:text-sm'
+                                                                        className='block w-full rounded-md border border-ali-card bg-white px-3 py-2 pr-10 text-ali-ink placeholder-ali-muted/80 focus:border-ali-muted focus:outline-none focus:ring-2 focus:ring-ali-muted sm:text-sm'
                                                                         placeholder={t("auth.login.placeholderEmail")}
                                                                 />
                                                         </div>
                                                 </div>
 
                                                 <div>
-                                                        <label htmlFor='password' className='block text-sm font-medium text-white/80'>
+                                                        <label htmlFor='password' className='block text-sm font-medium text-ali-ink'>
                                                                 {t("auth.login.password")}
                                                         </label>
                                                         <div className='relative mt-1 rounded-md shadow-sm'>
                                                                 <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3'>
-                                                                        <Lock className='h-5 w-5 text-white/50' aria-hidden='true' />
+                                                                        <Lock className='h-5 w-5 text-ali-muted' aria-hidden='true' />
                                                                 </div>
                                                                 <input
                                                                         id='password'
@@ -72,7 +72,7 @@ const LoginPage = () => {
                                                                         required
                                                                         value={password}
                                                                         onChange={(e) => setPassword(e.target.value)}
-                                                                        className='block w-full rounded-md border border-payzone-indigo/40 bg-payzone-navy/60 px-3 py-2 pr-10 text-white placeholder-white/40 focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo sm:text-sm'
+                                                                        className='block w-full rounded-md border border-ali-card bg-white px-3 py-2 pr-10 text-ali-ink placeholder-ali-muted/80 focus:border-ali-muted focus:outline-none focus:ring-2 focus:ring-ali-muted sm:text-sm'
                                                                         placeholder={t("auth.login.placeholderPassword")}
                                                                 />
                                                         </div>
@@ -97,7 +97,7 @@ const LoginPage = () => {
                                                 </button>
                                         </form>
 
-                                        <p className='mt-8 text-center text-sm text-white/70'>
+                                        <p className='mt-8 text-center text-sm text-ali-muted'>
                                                 {t("auth.login.prompt")} {" "}
                                                 <Link to='/signup' className='font-medium text-payzone-indigo transition duration-300 hover:text-payzone-gold'>
                                                         {t("auth.login.cta")}{" "}

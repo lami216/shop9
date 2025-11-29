@@ -53,43 +53,45 @@ const AnalyticsTab = () => {
                                         title={t("admin.analytics.cards.users")}
                                         value={formatNumberEn(analyticsData.users)}
                                         icon={Users}
-                                        gradient='from-payzone-indigo/70 via-payzone-indigo/60 to-payzone-navy'
+                                        gradient='from-white via-white to-white'
                                 />
                                 <AnalyticsCard
                                         title={t("admin.analytics.cards.products")}
                                         value={formatNumberEn(analyticsData.products)}
                                         icon={Package}
-                                        gradient='from-payzone-gold/80 via-payzone-gold/60 to-payzone-navy'
+                                        gradient='from-white via-white to-white'
                                 />
                                 <AnalyticsCard
                                         title={t("admin.analytics.cards.sales")}
                                         value={formatNumberEn(analyticsData.totalSales)}
                                         icon={ShoppingCart}
-                                        gradient='from-payzone-indigo/60 via-payzone-gold/40 to-payzone-navy'
+                                        gradient='from-white via-white to-white'
                                 />
                                 <AnalyticsCard
                                         title={t("admin.analytics.cards.revenue")}
                                         value={formatMRU(analyticsData.totalRevenue)}
                                         icon={DollarSign}
-                                        gradient='from-payzone-gold via-payzone-indigo/50 to-payzone-navy'
+                                        gradient='from-white via-white to-white'
                                 />
                         </div>
                         <motion.div
-                                className='rounded-xl border border-payzone-indigo/40 bg-white/5 p-6 shadow-lg backdrop-blur-sm'
+                                className='rounded-xl border border-ali-card bg-white p-6 shadow-sm'
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: 0.25 }}
                         >
                                 <ResponsiveContainer width='100%' height={400}>
                                         <LineChart data={dailySalesData}>
-                                                <CartesianGrid stroke='rgba(255,255,255,0.1)' strokeDasharray='3 3' />
-                                                <XAxis dataKey='date' stroke='#F8FAFC' tick={{ fill: "#F8FAFC" }} />
-                                                <YAxis yAxisId='left' stroke='#F8FAFC' tick={{ fill: "#F8FAFC" }} />
-                                                <YAxis yAxisId='right' orientation='right' stroke='#F8FAFC' tick={{ fill: "#F8FAFC" }} />
+                                                <CartesianGrid stroke='rgba(17,24,39,0.08)' strokeDasharray='3 3' />
+                                                <XAxis dataKey='date' stroke='#111827' tick={{ fill: "#111827" }} />
+                                                <YAxis yAxisId='left' stroke='#111827' tick={{ fill: "#111827" }} />
+                                                <YAxis yAxisId='right' orientation='right' stroke='#111827' tick={{ fill: "#111827" }} />
                                                 <Tooltip
-                                                        contentStyle={{ backgroundColor: "rgba(14,39,72,0.95)", borderRadius: "0.75rem", border: "1px solid rgba(210,156,74,0.4)", color: "#FFFFFF" }}
+                                                        contentStyle={{ backgroundColor: "#ffffff", borderRadius: "0.75rem", border: "1px solid #e5e7eb", color: "#111827" }}
+                                                        itemStyle={{ color: "#111827" }}
+                                                        labelStyle={{ color: "#111827" }}
                                                 />
-                                                <Legend wrapperStyle={{ color: "#FFFFFF" }} />
+                                                <Legend wrapperStyle={{ color: "#111827" }} />
                                                 <Line
                                                         yAxisId='left'
                                                         type='monotone'
@@ -118,7 +120,7 @@ export default AnalyticsTab;
 
 const AnalyticsCard = ({ title, value, icon: Icon, gradient }) => (
         <motion.div
-                className='relative overflow-hidden rounded-xl border border-white/10 bg-payzone-navy/80 p-6 shadow-lg'
+                className='relative overflow-hidden rounded-xl border border-ali-card bg-white p-6 shadow-sm'
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
@@ -126,16 +128,16 @@ const AnalyticsCard = ({ title, value, icon: Icon, gradient }) => (
                 <div className='absolute inset-0 opacity-70'>
                         <div className={`h-full w-full bg-gradient-to-br ${gradient}`} />
                 </div>
-                <div className='relative z-10 flex justify-between'>
+                <div className='relative z-10 flex justify-between text-ali-ink'>
                         <div>
-                                <p className='mb-1 text-xs font-semibold uppercase tracking-wide text-white/70'>{title}</p>
-                                <h3 className='text-3xl font-bold text-white'>{value}</h3>
+                                <p className='mb-1 text-xs font-semibold uppercase tracking-wide text-ali-muted'>{title}</p>
+                                <h3 className='text-3xl font-bold text-ali-ink'>{value}</h3>
                         </div>
-                        <div className='flex h-12 w-12 items-center justify-center rounded-lg bg-white/10 text-payzone-gold'>
+                        <div className='flex h-12 w-12 items-center justify-center rounded-lg bg-ali-card text-payzone-gold'>
                                 <Icon className='h-6 w-6' />
                         </div>
                 </div>
-                <div className='absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-70' />
+                <div className='absolute inset-0 bg-gradient-to-br from-white via-transparent to-transparent opacity-70' />
         </motion.div>
 );
 
