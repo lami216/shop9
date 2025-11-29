@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import useTranslation from "../hooks/useTranslation";
-import CategoryItem from "../components/CategoryItem";
 import { useProductStore } from "../stores/useProductStore";
 import FeaturedProducts from "../components/FeaturedProducts";
-import { useCategoryStore } from "../stores/useCategoryStore";
+import { useSectionStore } from "../stores/useSectionStore";
 import BannerSlider from "../components/BannerSlider";
+import SectionCard from "../components/SectionCard";
 
 const HomePage = () => {
         const { fetchFeaturedProducts, products, loading: productsLoading } = useProductStore();
-        const { categories, fetchCategories, loading: categoriesLoading } = useCategoryStore();
+        const { sections, fetchSections, loading: sectionsLoading } = useSectionStore();
         const { t } = useTranslation();
 
         useEffect(() => {
@@ -16,8 +16,8 @@ const HomePage = () => {
         }, [fetchFeaturedProducts]);
 
         useEffect(() => {
-                fetchCategories();
-        }, [fetchCategories]);
+                fetchSections(true);
+        }, [fetchSections]);
 
         return (
                 <div className='relative min-h-screen overflow-hidden bg-ali-bg text-ali-ink'>
@@ -32,17 +32,17 @@ const HomePage = () => {
                                 <div className='space-y-4'>
                                         <div className='flex items-center justify-between'>
                                                 <h2 className='text-xl font-bold text-ali-ink sm:text-2xl'>
-                                                        {t("home.titleLine1")} <span className='bg-gradient-to-r from-ali-red to-ali-rose bg-clip-text text-transparent'>{t("home.titleHighlight")}</span>
+                                                        {t("home.sectionsTitle")} <span className='bg-gradient-to-r from-ali-red to-ali-rose bg-clip-text text-transparent'>{t("home.sectionsHighlight")}</span>
                                                 </h2>
                                         </div>
-                                        <div className='grid grid-cols-2 gap-4 sm:grid-cols-3'>
-                                                {categories.length === 0 && !categoriesLoading && (
+                                        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+                                                {sections.length === 0 && !sectionsLoading && (
                                                         <div className='col-span-full text-center text-ali-muted'>
-                                                                {t("categories.manager.list.empty")}
+                                                                {t("sections.empty")}
                                                         </div>
                                                 )}
-                                                {categories.map((category) => (
-                                                        <CategoryItem category={category} key={category._id} />
+                                                {sections.map((section) => (
+                                                        <SectionCard section={section} key={section._id} />
                                                 ))}
                                         </div>
                                 </div>

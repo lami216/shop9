@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ImagePlus, Trash2, Edit3, X, Save } from "lucide-react";
 import toast from "react-hot-toast";
 import useTranslation from "../hooks/useTranslation";
 import { useCategoryStore } from "../stores/useCategoryStore";
+import { useSectionStore } from "../stores/useSectionStore";
 
 const CategoryManager = () => {
         const {
@@ -16,6 +17,7 @@ const CategoryManager = () => {
                 fetchCategories,
                 loading,
         } = useCategoryStore();
+        const { sections, fetchSections } = useSectionStore();
         const { t } = useTranslation();
 
         const createEmptyForm = useCallback(
@@ -25,6 +27,7 @@ const CategoryManager = () => {
                         image: "",
                         imagePreview: "",
                         imageChanged: false,
+                        section: "",
                 }),
                 []
         );
@@ -34,6 +37,10 @@ const CategoryManager = () => {
         useEffect(() => {
                 fetchCategories();
         }, [fetchCategories]);
+
+        useEffect(() => {
+                fetchSections(true);
+        }, [fetchSections]);
 
         useEffect(() => {
                 if (!selectedCategory) {
@@ -47,6 +54,10 @@ const CategoryManager = () => {
                         image: "",
                         imagePreview: selectedCategory.imageUrl ?? "",
                         imageChanged: false,
+                        section:
+                                typeof selectedCategory.section === "object"
+                                        ? selectedCategory.section?._id || ""
+                                        : selectedCategory.section || "",
                 });
         }, [selectedCategory, createEmptyForm]);
 
@@ -88,9 +99,15 @@ const CategoryManager = () => {
                         return;
                 }
 
+                if (!formState.section) {
+                        toast.error(t("categories.manager.form.sectionRequired"));
+                        return;
+                }
+
                 const payload = {
                         name: trimmedName,
                         description: trimmedDescription,
+                        section: formState.section,
                 };
 
                 if (formState.image && (formState.imageChanged || !selectedCategory)) {
@@ -122,6 +139,21 @@ const CategoryManager = () => {
                         deleteCategory(category._id);
                 }
         };
+
+        const sectionOptions = useMemo(() => {
+                const hasSelectedSection = sections.some((section) => section._id === formState.section);
+
+                if (!formState.section || hasSelectedSection) {
+                        return sections;
+                }
+
+                const fallbackName =
+                        typeof selectedCategory?.section === "object"
+                                ? selectedCategory.section?.name || t("sections.manager.form.inactive")
+                                : t("sections.manager.form.inactive");
+
+                return [...sections, { _id: formState.section, name: fallbackName }];
+        }, [formState.section, sections, selectedCategory?.section, t]);
 
         return (
                 <div className='mx-auto mb-12 max-w-5xl space-y-8'>
@@ -192,6 +224,34 @@ const CategoryManager = () => {
                                                         </div>
                                                         <p className='mt-2 text-xs text-ali-muted'>{t("categories.manager.form.imageHint")}</p>
                                                 </div>
+                                        </div>
+
+                                        <div>
+                                                <label className='block text-sm font-medium text-ali-ink' htmlFor='category-section'>
+                                                        {t("categories.manager.form.section")}
+                                                </label>
+                                                <select
+                                                        id='category-section'
+                                                        className='mt-1 block w-full rounded-md border border-ali-card bg-white px-3 py-2 text-ali-ink focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
+                                                        value={formState.section}
+                                                        onChange={(event) =>
+                                                                setFormState((previous) => ({
+                                                                        ...previous,
+                                                                        section: event.target.value,
+                                                                }))
+                                                        }
+                                                        required
+                                                >
+                                                        <option value=''>
+                                                                {t("categories.manager.form.sectionPlaceholder")}
+                                                        </option>
+                                                        {sectionOptions.map((section) => (
+                                                                <option key={section._id} value={section._id}>
+                                                                        {section.name}
+                                                                </option>
+                                                        ))}
+                                                </select>
+                                                <p className='mt-2 text-xs text-ali-muted'>{t("categories.manager.form.sectionHint")}</p>
                                         </div>
 
                                         <div>

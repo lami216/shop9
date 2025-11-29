@@ -1,24 +1,21 @@
 import mongoose from "mongoose";
 
-const categorySchema = new mongoose.Schema(
+const sectionSchema = new mongoose.Schema(
         {
                 name: {
                         type: String,
                         required: true,
-                },
-                description: {
-                        type: String,
-                        default: "",
+                        trim: true,
                 },
                 slug: {
                         type: String,
                         required: true,
                         unique: true,
+                        trim: true,
                 },
-                section: {
-                        type: mongoose.Schema.Types.ObjectId,
-                        ref: "Section",
-                        required: true,
+                description: {
+                        type: String,
+                        default: "",
                 },
                 imageUrl: {
                         type: String,
@@ -32,10 +29,18 @@ const categorySchema = new mongoose.Schema(
                         type: String,
                         default: null,
                 },
+                order: {
+                        type: Number,
+                        default: null,
+                },
+                isActive: {
+                        type: Boolean,
+                        default: true,
+                },
         },
         { timestamps: true }
 );
 
-const Category = mongoose.model("Category", categorySchema);
+const Section = mongoose.model("Section", sectionSchema);
 
-export default Category;
+export default Section;
