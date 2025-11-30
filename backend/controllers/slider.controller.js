@@ -48,7 +48,7 @@ const processSliderImage = async (imageDataUrl) => {
         const { buffer: originalBuffer, mimeType } = parsed;
         const extension = mimeToExtension(mimeType);
         const minThreshold = 300 * 1024;
-        const maxThreshold = 1024 * 1024;
+        const maxThreshold = 2 * 1024 * 1024;
 
         if (originalBuffer.length <= minThreshold) {
                 return { buffer: originalBuffer, extension };
@@ -64,7 +64,7 @@ const processSliderImage = async (imageDataUrl) => {
                 if (optimizedBuffer.length > maxThreshold) {
                         optimizedBuffer = await sharp(originalBuffer)
                                 .rotate()
-                                .resize({ width: 1200, withoutEnlargement: true })
+                                .resize({ width: 1400, withoutEnlargement: true })
                                 .jpeg({ quality: 60 })
                                 .toBuffer();
                 }
