@@ -19,13 +19,20 @@ const BannerSlider = () => {
 
                 return [...slides]
                         .filter((slide) => slide?.isActive !== false)
-                        .map((slide, index) => ({
-                                key: slide._id || index,
-                                imageUrl: (slide.imageUrl ?? slide.image ?? slide.url ?? slide?.image?.url ?? "").trim(),
-                                title: slide.title || "",
-                                subtitle: slide.subtitle || "",
-                                order: Number.isFinite(slide.order) ? Number(slide.order) : index,
-                        }))
+                        .map((slide, index) => {
+                                const rawImage =
+                                        slide.imageUrl ?? slide.image ?? slide.url ?? (slide.image && slide.image.url);
+
+                                const imageUrl = typeof rawImage === "string" ? rawImage.trim() : "";
+
+                                return {
+                                        key: slide._id || index,
+                                        imageUrl,
+                                        title: slide.title || "",
+                                        subtitle: slide.subtitle || "",
+                                        order: Number.isFinite(slide.order) ? Number(slide.order) : index,
+                                };
+                        })
                         .filter((slide) => Boolean(slide.imageUrl))
                         .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
         }, [slides]);
