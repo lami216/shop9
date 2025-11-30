@@ -15,19 +15,19 @@ const BannerSlider = () => {
         }, [fetchSlides]);
 
         const sliderItems = useMemo(() => {
-                if (Array.isArray(slides) && slides.length > 0) {
-                        return [...slides]
-                                .filter((slide) => slide?.imageUrl)
-                                .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-                                .map((slide, index) => ({
-                                        key: slide._id || index,
-                                        image: slide.imageUrl,
-                                        title: slide.title || "",
-                                        subtitle: slide.subtitle || "",
-                                }));
-                }
+                if (!Array.isArray(slides) || slides.length === 0) return [];
 
-                return [];
+                return [...slides]
+                        .filter((slide) => slide?.isActive !== false)
+                        .map((slide, index) => ({
+                                key: slide._id || index,
+                                imageUrl: slide.imageUrl ?? slide.image,
+                                title: slide.title || "",
+                                subtitle: slide.subtitle || "",
+                                order: Number.isFinite(slide.order) ? Number(slide.order) : index,
+                        }))
+                        .filter((slide) => Boolean(slide.imageUrl))
+                        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
         }, [slides]);
 
         const totalSlides = sliderItems.length;
@@ -77,7 +77,7 @@ const BannerSlider = () => {
                                                 {sliderItems.map((slide) => (
                                                         <div key={slide.key} className='relative w-full flex-shrink-0'>
                                                                 <img
-                                                                        src={slide.image}
+                                                                        src={slide.imageUrl}
                                                                         alt={slide.title}
                                                                         className='h-[220px] w-full object-cover sm:h-[320px]'
                                                                 />
