@@ -15,7 +15,7 @@ const Navbar = () => {
         const cartLink = (
                 <Link
                         to={'/cart'}
-                        className='relative group flex items-center gap-2 rounded-full bg-gradient-to-r from-ali-red to-ali-rose px-4 py-1.5 text-sm font-semibold text-white shadow-lg transition duration-300 ease-in-out hover:shadow-xl'
+                        className='relative group flex items-center gap-2 rounded-full bg-gradient-to-r from-ali-red to-ali-rose px-4 py-1 text-sm font-semibold text-white shadow-lg transition duration-300 ease-in-out hover:shadow-xl'
                 >
                         <ShoppingCart size={18} />
                         <span className='hidden sm:inline'>{t("nav.cart")}</span>
@@ -33,7 +33,7 @@ const Navbar = () => {
                         className='fixed top-0 right-0 z-40 w-full border-b border-ali-card/80 bg-white/90 backdrop-blur-xl shadow-md transition-all duration-300'
                 >
                         <div
-                                className={`mx-auto flex max-w-6xl flex-wrap items-center gap-2.5 px-4 py-1.5 sm:px-6 sm:py-2 ${
+                                className={`mx-auto flex max-w-6xl flex-wrap items-center gap-2 px-4 py-1 sm:px-6 sm:py-1.5 ${
                                         isArabic ? "justify-end" : "justify-between"
                                 }`}
                         >
@@ -66,7 +66,7 @@ const Navbar = () => {
                                 )}
 
                                 <div
-                                className={`flex items-center gap-2 rounded-full border border-ali-card bg-white px-3 py-1 text-ali-muted shadow-sm ${
+                                className={`flex items-center gap-2 rounded-full border border-ali-card bg-white px-3 py-0.5 text-ali-muted shadow-sm ${
                                                 isArabic ? "order-4" : "order-2"
                                         }`}
                                 >
@@ -85,7 +85,7 @@ const Navbar = () => {
                                 <div className={`flex items-center gap-3 ${isArabic ? "order-5" : "order-6"}`}>
                                         {user ? (
                                                 <button
-                                                        className='flex items-center gap-2 rounded-full bg-ali-card px-4 py-1.5 text-ali-ink shadow-sm transition duration-300 ease-in-out hover:shadow'
+                                                        className='flex items-center gap-2 rounded-full bg-ali-card px-4 py-1 text-ali-ink shadow-sm transition duration-300 ease-in-out hover:shadow'
                                                         onClick={logout}
                                                 >
                                                         <LogOut size={18} />
@@ -95,14 +95,14 @@ const Navbar = () => {
                                                 <>
                                                         <Link
                                                                 to={'/signup'}
-                                                                className='flex items-center gap-2 rounded-full bg-white px-4 py-1.5 font-semibold text-ali-ink shadow-sm ring-1 ring-ali-card transition duration-300 ease-in-out hover:shadow'
+                                                                className='flex items-center gap-2 rounded-full bg-white px-4 py-1 font-semibold text-ali-ink shadow-sm ring-1 ring-ali-card transition duration-300 ease-in-out hover:shadow'
                                                         >
                                                                 <UserPlus size={18} />
                                                                 {t("nav.signup")}
                                                         </Link>
                                                         <Link
                                                                 to={'/login'}
-                                                                className='flex items-center gap-2 rounded-full bg-gradient-to-r from-ali-red to-ali-rose px-4 py-1.5 text-white shadow-lg transition duration-300 ease-in-out hover:shadow-xl'
+                                                                className='flex items-center gap-2 rounded-full bg-gradient-to-r from-ali-red to-ali-rose px-4 py-1 text-white shadow-lg transition duration-300 ease-in-out hover:shadow-xl'
                                                         >
                                                                 <LogIn size={18} />
                                                                 {t("nav.login")}
@@ -118,7 +118,7 @@ const Navbar = () => {
                                 >
                                         <Link
                                                 to={'/'}
-                                                className='rounded-full px-3 py-2 transition duration-300 ease-in-out hover:bg-ali-card hover:text-ali-ink'
+                                                className='rounded-full px-3 py-1.5 transition duration-300 ease-in-out hover:bg-ali-card hover:text-ali-ink'
                                         >
                                                 {t("nav.home")}
                                         </Link>

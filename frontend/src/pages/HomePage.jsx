@@ -21,7 +21,7 @@ const HomePage = () => {
 
         return (
                 <div className='relative min-h-screen overflow-hidden bg-ali-bg text-ali-ink'>
-                        <div className='relative z-10 mx-auto max-w-5xl px-4 pb-16 pt-6 sm:px-6 lg:px-8'>
+                        <div className='relative z-10 mx-auto max-w-5xl px-4 pb-16 pt-4 sm:px-6 lg:px-8'>
                                 <div className='mb-6 space-y-4'>
                                         <BannerSlider />
                                         <div className='rounded-2xl bg-white p-4 text-center text-lg font-semibold text-ali-ink shadow-sm sm:p-5'>
