@@ -9,6 +9,12 @@ const BannerSlider = () => {
         const { slides, fetchSlides } = useSliderStore();
         const { i18n } = useTranslation();
         const isArabic = i18n.language === "ar";
+        const FALLBACK_IMAGE =
+                "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='600' viewBox='0 0 1600 600'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop stop-color='%23dbeafe' offset='0'/%3E%3Cstop stop-color='%23bfdbfe' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1600' height='600' fill='url(%23g)'/%3E%3Ctext x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%2325466b' font-family='Arial' font-size='48'%3ESlider%20image%20placeholder%3C/text%3E%3C/svg%3E";
+
+        const isValidImageUrl = (value) =>
+                typeof value === "string" &&
+                (/^(https?:)?\/\//i.test(value.trim()) || /^data:image\//i.test(value.trim()));
 
         useEffect(() => {
                 fetchSlides(true);
@@ -35,7 +41,7 @@ const BannerSlider = () => {
                                         order: normalizedOrder,
                                 };
                         })
-                        .filter((slide) => slide.imageUrl !== "")
+                        .filter((slide) => slide.imageUrl !== "" && isValidImageUrl(slide.imageUrl))
                         .sort((a, b) => a.order - b.order);
         }, [slides]);
 
@@ -90,6 +96,11 @@ const BannerSlider = () => {
                                                                         src={slide.imageUrl}
                                                                         alt={slide.title}
                                                                         className='h-[220px] w-full object-cover sm:h-[320px]'
+                                                                        onError={(event) => {
+                                                                                if (event.currentTarget.src !== FALLBACK_IMAGE) {
+                                                                                        event.currentTarget.src = FALLBACK_IMAGE;
+                                                                                }
+                                                                        }}
                                                                 />
                                                                 <div className='absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent' />
                                                                 <div className='absolute inset-y-0 flex h-full w-full items-center px-5 sm:px-10'>
