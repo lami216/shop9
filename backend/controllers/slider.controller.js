@@ -39,9 +39,18 @@ export const getSliderItems = async (req, res) => {
         try {
                 const onlyActive = String(req.query.active || "").toLowerCase() === "true";
                 const filter = onlyActive ? { isActive: true } : {};
-                const sliders = await SliderItem.find(filter).sort({ order: 1, createdAt: -1 }).lean();
+                const sliders = await SliderItem.find(filter)
+                        .sort({ order: 1, createdAt: -1 })
+                        .lean()
+                        .then((items) =>
+                                items.map((item, index) => ({
+                                        ...item,
+                                        // عالج العناصر التي قد لا تملك قيمة للترتيب حتى لا يتم إسقاطها
+                                        order: Number.isFinite(item.order) ? Number(item.order) : 999 + index,
+                                }))
+                        );
 
-                res.json({ sliders });
+                res.json({ sliders: Array.isArray(sliders) ? sliders : [] });
         } catch (error) {
                 console.log("Error in getSliderItems controller", error.message);
                 res.status(500).json({ message: "Server error", error: error.message });

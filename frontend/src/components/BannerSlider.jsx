@@ -21,7 +21,7 @@ const BannerSlider = () => {
                         .filter((slide) => slide?.isActive !== false)
                         .map((slide, index) => ({
                                 key: slide._id || index,
-                                imageUrl: slide.imageUrl ?? slide.image,
+                                imageUrl: slide.imageUrl ?? slide.image ?? slide.url ?? slide?.image?.url,
                                 title: slide.title || "",
                                 subtitle: slide.subtitle || "",
                                 order: Number.isFinite(slide.order) ? Number(slide.order) : index,
