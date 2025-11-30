@@ -78,7 +78,9 @@ const BannerSlider = () => {
         }, [slides]);
 
         const totalSlides = sliderItems.length;
-        const maxIndex = Math.max(totalSlides - slidesPerView, 0);
+        // Keep the number of visible slides within the available count to avoid empty frames
+        const effectiveSlidesPerView = Math.max(Math.min(slidesPerView, totalSlides || 1), 1);
+        const maxIndex = Math.max(totalSlides - effectiveSlidesPerView, 0);
 
         useEffect(() => {
                 if (!totalSlides) return undefined;
@@ -92,12 +94,11 @@ const BannerSlider = () => {
 
         useEffect(() => {
                 setCurrent(0);
-        }, [totalSlides, slidesPerView]);
+        }, [totalSlides, effectiveSlidesPerView]);
 
         const goTo = (index) => {
                 if (!totalSlides) return;
-                const windowSize = maxIndex + 1 || 1;
-                const safeIndex = ((index % windowSize) + windowSize) % windowSize;
+                const safeIndex = Math.min(Math.max(index, 0), maxIndex);
                 setCurrent(safeIndex);
         };
 
@@ -120,7 +121,7 @@ const BannerSlider = () => {
                                 <>
                                         <div
                                                 className='flex transition-transform duration-500 ease-in-out'
-                                                style={{ transform: `translateX(-${current * (100 / slidesPerView)}%)` }}
+                                                style={{ transform: `translateX(-${current * (100 / effectiveSlidesPerView)}%)` }}
                                                 onTouchStart={handleTouchStart}
                                                 onTouchEnd={handleTouchEnd}
                                         >
@@ -128,7 +129,10 @@ const BannerSlider = () => {
                                                         <div
                                                                 key={slide.key}
                                                                 className='relative w-full flex-shrink-0'
-                                                                style={{ maxWidth: `${100 / slidesPerView}%`, flexBasis: `${100 / slidesPerView}%` }}
+                                                                style={{
+                                                                        maxWidth: `${100 / effectiveSlidesPerView}%`,
+                                                                        flexBasis: `${100 / effectiveSlidesPerView}%`,
+                                                                }}
                                                         >
                                                                 <img
                                                                         src={slide.imageUrl}
@@ -140,8 +144,8 @@ const BannerSlider = () => {
                                                                                 }
                                                                         }}
                                                                 />
-                                                                <div className='absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent' />
-                                                                <div className='absolute inset-y-0 flex h-full w-full items-center px-5 sm:px-10'>
+                                                                <div className='pointer-events-none absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent' />
+                                                                <div className='pointer-events-none absolute inset-y-0 flex h-full w-full items-center px-5 sm:px-10'>
                                                                         <div className='max-w-xl text-white drop-shadow'>
                                                                                 <h3 className='text-2xl font-bold sm:text-3xl'>{slide.title}</h3>
                                                                                 <p className='mt-2 text-sm sm:text-base'>{slide.subtitle}</p>
