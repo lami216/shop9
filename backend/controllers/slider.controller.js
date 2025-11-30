@@ -1,3 +1,4 @@
+import sharp from "sharp";
 import SliderItem from "../models/slider.model.js";
 import { uploadImage, deleteImage } from "../lib/imagekit.js";
 
@@ -18,6 +19,61 @@ const ensureUploadResult = (uploadResult) => {
                 url: String(uploadResult.url),
                 fileId: uploadResult.fileId ? String(uploadResult.fileId) : null,
         };
+};
+
+const parseDataUrl = (dataUrl) => {
+        if (typeof dataUrl !== "string") return null;
+
+        const matches = dataUrl.match(/^data:(.+);base64,(.*)$/);
+        if (!matches) return null;
+
+        const [, mimeType, base64Data] = matches;
+        return {
+                buffer: Buffer.from(base64Data, "base64"),
+                mimeType: mimeType || "image/jpeg",
+        };
+};
+
+const mimeToExtension = (mimeType = "") => {
+        const match = mimeType.match(/^[^\/]+\/([a-z0-9+.-]+)/i);
+        return match?.[1]?.replace(/\+xml$/i, "") || "jpg";
+};
+
+const processSliderImage = async (imageDataUrl) => {
+        const parsed = parseDataUrl(imageDataUrl);
+        if (!parsed) {
+                throw createHttpError(400, "Invalid slider image data");
+        }
+
+        const { buffer: originalBuffer, mimeType } = parsed;
+        const extension = mimeToExtension(mimeType);
+        const minThreshold = 300 * 1024;
+        const maxThreshold = 1024 * 1024;
+
+        if (originalBuffer.length <= minThreshold) {
+                return { buffer: originalBuffer, extension };
+        }
+
+        try {
+                let optimizedBuffer = await sharp(originalBuffer)
+                        .rotate()
+                        .resize({ width: 1200, withoutEnlargement: true })
+                        .jpeg({ quality: 70 })
+                        .toBuffer();
+
+                if (optimizedBuffer.length > maxThreshold) {
+                        optimizedBuffer = await sharp(originalBuffer)
+                                .rotate()
+                                .resize({ width: 1200, withoutEnlargement: true })
+                                .jpeg({ quality: 60 })
+                                .toBuffer();
+                }
+
+                return { buffer: optimizedBuffer, extension: "jpeg" };
+        } catch (compressionError) {
+                console.log("Image compression failed, fallback to original", compressionError.message);
+                return { buffer: originalBuffer, extension };
+        }
 };
 
 const resolveOrder = async (requestedOrder) => {
@@ -65,7 +121,10 @@ export const createSliderItem = async (req, res) => {
                         throw createHttpError(400, "Slider image is required");
                 }
 
-                const uploadResult = await uploadImage(image, "slider");
+                const processedImage = await processSliderImage(image);
+                const uploadResult = await uploadImage(processedImage.buffer, "slider", {
+                        extension: processedImage.extension,
+                });
                 const { url, fileId } = ensureUploadResult(uploadResult);
                 const nextOrder = await resolveOrder(order);
 
@@ -124,7 +183,10 @@ export const updateSliderItem = async (req, res) => {
                                 }
                         }
 
-                        const uploadResult = await uploadImage(image, "slider");
+                        const processedImage = await processSliderImage(image);
+                        const uploadResult = await uploadImage(processedImage.buffer, "slider", {
+                                extension: processedImage.extension,
+                        });
                         const { url, fileId } = ensureUploadResult(uploadResult);
                         sliderItem.imageUrl = url;
                         sliderItem.imageFileId = fileId;
