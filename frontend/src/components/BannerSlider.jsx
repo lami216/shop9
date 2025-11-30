@@ -5,6 +5,7 @@ import useTranslation from "../hooks/useTranslation";
 
 const BannerSlider = () => {
         const [current, setCurrent] = useState(0);
+        const [slidesPerView, setSlidesPerView] = useState(1);
         const touchStartX = useRef(null);
         const { slides, fetchSlides } = useSliderStore();
         const { i18n } = useTranslation();
@@ -33,14 +34,29 @@ const BannerSlider = () => {
         };
 
         useEffect(() => {
-                fetchSlides(true);
+                fetchSlides();
         }, [fetchSlides]);
+
+        useEffect(() => {
+                const updateSlidesPerView = () => {
+                        const width = typeof window !== "undefined" ? window.innerWidth : 0;
+                        setSlidesPerView(width >= 1024 ? 3 : width >= 640 ? 2 : 1);
+                };
+
+                updateSlidesPerView();
+
+                if (typeof window !== "undefined") {
+                        window.addEventListener("resize", updateSlidesPerView);
+                        return () => window.removeEventListener("resize", updateSlidesPerView);
+                }
+
+                return undefined;
+        }, []);
 
         const sliderItems = useMemo(() => {
                 if (!Array.isArray(slides) || slides.length === 0) return [];
 
                 return [...slides]
-                        .filter((slide) => slide?.isActive !== false)
                         .map((slide, index) => {
                                 const rawImageUrl =
                                         slide?.imageUrl ?? slide?.image ?? slide?.url ?? slide?.image?.url ?? "";
@@ -62,24 +78,26 @@ const BannerSlider = () => {
         }, [slides]);
 
         const totalSlides = sliderItems.length;
+        const maxIndex = Math.max(totalSlides - slidesPerView, 0);
 
         useEffect(() => {
                 if (!totalSlides) return undefined;
 
                 const interval = setInterval(() => {
-                        setCurrent((prev) => (prev + 1) % totalSlides);
+                        setCurrent((prev) => (prev + 1) % (maxIndex + 1 || 1));
                 }, 5000);
 
                 return () => clearInterval(interval);
-        }, [totalSlides]);
+        }, [maxIndex, totalSlides]);
 
         useEffect(() => {
                 setCurrent(0);
-        }, [totalSlides]);
+        }, [totalSlides, slidesPerView]);
 
         const goTo = (index) => {
                 if (!totalSlides) return;
-                const safeIndex = ((index % totalSlides) + totalSlides) % totalSlides;
+                const windowSize = maxIndex + 1 || 1;
+                const safeIndex = ((index % windowSize) + windowSize) % windowSize;
                 setCurrent(safeIndex);
         };
 
@@ -102,12 +120,16 @@ const BannerSlider = () => {
                                 <>
                                         <div
                                                 className='flex transition-transform duration-500 ease-in-out'
-                                                style={{ transform: `translateX(-${current * 100}%)` }}
+                                                style={{ transform: `translateX(-${current * (100 / slidesPerView)}%)` }}
                                                 onTouchStart={handleTouchStart}
                                                 onTouchEnd={handleTouchEnd}
                                         >
                                                 {sliderItems.map((slide) => (
-                                                        <div key={slide.key} className='relative w-full flex-shrink-0'>
+                                                        <div
+                                                                key={slide.key}
+                                                                className='relative w-full flex-shrink-0'
+                                                                style={{ maxWidth: `${100 / slidesPerView}%`, flexBasis: `${100 / slidesPerView}%` }}
+                                                        >
                                                                 <img
                                                                         src={slide.imageUrl}
                                                                         alt={slide.title}
@@ -125,20 +147,21 @@ const BannerSlider = () => {
                                                                                 <p className='mt-2 text-sm sm:text-base'>{slide.subtitle}</p>
                                                                         </div>
                                                                 </div>
-                                                                <div className='absolute bottom-3 left-0 right-0 flex justify-center gap-2'>
-                                                                        {sliderItems.map((_, dotIndex) => (
-                                                                                <button
-                                                                                        key={dotIndex}
-                                                                                        type='button'
-                                                                                        aria-label={`الانتقال إلى الشريحة ${dotIndex + 1}`}
-                                                                                        className={`h-2 w-2 rounded-full transition ${
-                                                                                                dotIndex === current ? "w-6 bg-white" : "bg-white/70"
-                                                                                        }`}
-                                                                                        onClick={() => goTo(dotIndex)}
-                                                                                />
-                                                                        ))}
-                                                                </div>
                                                         </div>
+                                                ))}
+                                        </div>
+
+                                        <div className='absolute bottom-3 left-0 right-0 flex justify-center gap-2'>
+                                                {sliderItems.map((_, dotIndex) => (
+                                                        <button
+                                                                key={dotIndex}
+                                                                type='button'
+                                                                aria-label={`الانتقال إلى الشريحة ${dotIndex + 1}`}
+                                                                className={`h-2 w-2 rounded-full transition ${
+                                                                        dotIndex === current ? "w-6 bg-white" : "bg-white/70"
+                                                                }`}
+                                                                onClick={() => goTo(dotIndex)}
+                                                        />
                                                 ))}
                                         </div>
 
