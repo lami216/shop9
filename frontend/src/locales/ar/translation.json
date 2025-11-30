@@ -166,12 +166,54 @@
                         "confirmDelete": "هل أنت متأكد أنك تريد حذف هذا القسم؟"
                 }
         },
+        "slider": {
+                "title": "إدارة السلايدر الرئيسي",
+                "subtitle": "أضف صوراً جديدة، عدّل الترتيب، وتحكم في ظهورها في الصفحة الرئيسية.",
+                "cancelEdit": "إلغاء التعديل",
+                "confirmDelete": "هل أنت متأكد من حذف هذه الصورة من السلايدر؟",
+                "form": {
+                        "title": "عنوان الشريحة (اختياري)",
+                        "subtitle": "وصف مختصر (اختياري)",
+                        "order": "الترتيب",
+                        "isActive": "حالة الشريحة",
+                        "active": "نشطة",
+                        "inactive": "مخفية",
+                        "image": "صورة السلايدر",
+                        "upload": "رفع صورة",
+                        "imageHint": "يفضل استخدام صور بعرض كبير لتظهر بوضوح في السلايدر.",
+                        "imageRequired": "يرجى اختيار صورة للسلايدر.",
+                        "submitCreate": "إضافة الصورة",
+                        "submitUpdate": "حفظ التعديلات"
+                },
+                "list": {
+                        "title": "صور السلايدر",
+                        "empty": "لا توجد صور مضافة بعد.",
+                        "order": "الترتيب الحالي",
+                        "fallbackTitle": "شريحة {{index}}",
+                        "reorderHint": "اسحب أو استخدم الأسهم لإعادة ترتيب عرض الشرائح."
+                },
+                "actions": {
+                        "edit": "تعديل",
+                        "delete": "حذف",
+                        "up": "أعلى",
+                        "down": "أسفل",
+                        "moveUp": "تحريك للأعلى",
+                        "moveDown": "تحريك للأسفل"
+                },
+                "messages": {
+                        "created": "تمت إضافة الشريحة بنجاح",
+                        "updated": "تم تحديث بيانات الشريحة",
+                        "deleted": "تم حذف الشريحة",
+                        "reordered": "تم تحديث ترتيب الشرائح"
+                }
+        },
         "admin": {
                 "dashboardTitle": "لوحة تحكم المشرف",
                 "tabs": {
                         "create": "إنشاء منتج",
                         "products": "المنتجات",
                         "sections": "الأقسام",
+                        "slider": "إعدادات السلايدر",
                         "analytics": "الإحصائيات",
                         "orders": "الطلبات",
                         "categories": "الفئات",
@@ -540,6 +582,11 @@
                 "updateQuantityError": "تعذر تحديث الكمية",
                 "couponCreateError": "تعذر إنشاء الكوبون",
                 "couponUpdateError": "تعذر تحديث الكوبون",
-                "couponFetchError": "تعذر تحميل الكوبونات"
+                "couponFetchError": "تعذر تحميل الكوبونات",
+                "sliderFetchError": "تعذر تحميل صور السلايدر",
+                "sliderCreateError": "تعذر حفظ صورة السلايدر",
+                "sliderUpdateError": "تعذر تحديث صورة السلايدر",
+                "sliderDeleteError": "تعذر حذف صورة السلايدر",
+                "sliderReorderError": "تعذر تحديث ترتيب السلايدر"
         }
 }

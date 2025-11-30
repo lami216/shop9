@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useSliderStore } from "../stores/useSliderStore";
+import useTranslation from "../hooks/useTranslation";
 
-const slides = [
+const fallbackSlides = [
         {
                 image: "/jackets.jpg",
                 title: "عروض حصرية",
@@ -22,9 +24,39 @@ const slides = [
 const BannerSlider = () => {
         const [current, setCurrent] = useState(0);
         const touchStartX = useRef(null);
-        const totalSlides = useMemo(() => slides.length, []);
+        const { slides, fetchSlides } = useSliderStore();
+        const { i18n } = useTranslation();
+        const isArabic = i18n.language === "ar";
 
         useEffect(() => {
+                fetchSlides(true);
+        }, [fetchSlides]);
+
+        const sliderItems = useMemo(() => {
+                if (Array.isArray(slides) && slides.length > 0) {
+                        return [...slides]
+                                .filter((slide) => slide?.imageUrl)
+                                .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+                                .map((slide, index) => ({
+                                        key: slide._id || index,
+                                        image: slide.imageUrl,
+                                        title: slide.title || fallbackSlides[index % fallbackSlides.length].title,
+                                        subtitle:
+                                                slide.subtitle || fallbackSlides[index % fallbackSlides.length].subtitle,
+                                }));
+                }
+
+                return fallbackSlides.map((slide, index) => ({
+                        ...slide,
+                        key: `fallback-${index}`,
+                }));
+        }, [slides]);
+
+        const totalSlides = sliderItems.length;
+
+        useEffect(() => {
+                if (!totalSlides) return undefined;
+
                 const interval = setInterval(() => {
                         setCurrent((prev) => (prev + 1) % totalSlides);
                 }, 5000);
@@ -32,7 +64,12 @@ const BannerSlider = () => {
                 return () => clearInterval(interval);
         }, [totalSlides]);
 
+        useEffect(() => {
+                setCurrent(0);
+        }, [totalSlides]);
+
         const goTo = (index) => {
+                if (!totalSlides) return;
                 setCurrent((index + totalSlides) % totalSlides);
         };
 
@@ -57,8 +94,8 @@ const BannerSlider = () => {
                                 onTouchStart={handleTouchStart}
                                 onTouchEnd={handleTouchEnd}
                         >
-                                {slides.map((slide) => (
-                                        <div key={slide.title} className='relative w-full flex-shrink-0'>
+                                {sliderItems.map((slide) => (
+                                        <div key={slide.key} className='relative w-full flex-shrink-0'>
                                                 <img
                                                         src={slide.image}
                                                         alt={slide.title}
@@ -72,7 +109,7 @@ const BannerSlider = () => {
                                                         </div>
                                                 </div>
                                                 <div className='absolute bottom-3 left-0 right-0 flex justify-center gap-2'>
-                                                        {slides.map((_, dotIndex) => (
+                                                        {sliderItems.map((_, dotIndex) => (
                                                                 <button
                                                                         key={dotIndex}
                                                                         type='button'
@@ -90,19 +127,19 @@ const BannerSlider = () => {
 
                         <button
                                 type='button'
-                                className='absolute left-3 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-ali-ink shadow hover:bg-white sm:flex'
+                                className='absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-ali-ink shadow hover:bg-white sm:left-4'
                                 onClick={() => goTo(current - 1)}
                                 aria-label='الشريحة السابقة'
                         >
-                                <ChevronRight size={20} />
+                                {isArabic ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
                         </button>
                         <button
                                 type='button'
-                                className='absolute right-3 top-1/2 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-ali-ink shadow hover:bg-white sm:flex'
+                                className='absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-ali-ink shadow hover:bg-white sm:right-4'
                                 onClick={() => goTo(current + 1)}
                                 aria-label='الشريحة التالية'
                         >
-                                <ChevronLeft size={20} />
+                                {isArabic ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
                         </button>
                 </div>
         );
