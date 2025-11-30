@@ -33,11 +33,13 @@ const Navbar = () => {
                         className='fixed top-0 right-0 z-40 w-full border-b border-ali-card/80 bg-white/90 backdrop-blur-xl shadow-md transition-all duration-300'
                 >
                         <div
-                                className='mx-auto flex max-w-6xl flex-nowrap items-center gap-2 px-3 py-1 sm:px-6 sm:py-1.5'
+                                className={`mx-auto flex max-w-6xl flex-wrap items-center gap-2 px-4 py-0 sm:px-6 sm:py-1.5 ${
+                                        isArabic ? "justify-end" : "justify-between"
+                                }`}
                         >
                                 <Link
                                         to='/'
-                                        className='flex shrink-0 items-center gap-2 text-ali-ink'
+                                        className={`flex items-center gap-2 text-ali-ink ${isArabic ? "order-1" : "order-1"}`}
                                 >
                                         <img
                                                 src='/logo.png'
@@ -49,25 +51,11 @@ const Navbar = () => {
                                         </span>
                                 </Link>
 
-                                <nav className='flex flex-shrink-0 items-center gap-2 text-xs font-medium text-ali-muted sm:gap-3 sm:text-sm'>
-                                        <Link
-                                                to={'/'}
-                                                className='rounded-full px-3 py-1 transition duration-300 ease-in-out hover:bg-ali-card hover:text-ali-ink'
-                                        >
-                                                {t("nav.home")}
-                                        </Link>
-                                        {isAdmin && (
-                                                <Link
-                                                        className='flex items-center gap-2 rounded-full bg-ali-card px-3 py-1 text-ali-ink transition duration-300 ease-in-out hover:bg-ali-rose/20'
-                                                        to={'/secret-dashboard'}
-                                                >
-                                                        <Lock className='inline-block' size={18} />
-                                                        <span className='hidden sm:inline'>{t("nav.dashboard")}</span>
-                                                </Link>
-                                        )}
-                                </nav>
+                                {cartLink && (
+                                        <div className={isArabic ? "order-3" : "order-3"}>{cartLink}</div>
+                                )}
 
-                                <div className='flex flex-shrink-0 items-center gap-2 sm:gap-3'>
+                                <div className={`flex items-center gap-2 sm:gap-3 ${isArabic ? "order-4" : "order-4"}`}>
                                         {user ? (
                                                 <button
                                                         className='flex items-center gap-2 rounded-full bg-ali-card px-3 py-0 text-ali-ink shadow-sm transition duration-300 ease-in-out hover:shadow sm:px-4 sm:py-1'
@@ -96,7 +84,27 @@ const Navbar = () => {
                                         )}
                                 </div>
 
-                                {cartLink && <div className='flex-shrink-0'>{cartLink}</div>}
+                                <nav
+                                        className={`flex items-center gap-3 text-sm font-medium text-ali-muted ${
+                                                isArabic ? "order-2 w-full justify-start sm:order-2 sm:w-auto" : "order-2"
+                                        }`}
+                                >
+                                        <Link
+                                                to={'/'}
+                                                className='rounded-full px-3 py-0.5 transition duration-300 ease-in-out hover:bg-ali-card hover:text-ali-ink sm:py-1.5'
+                                        >
+                                                {t("nav.home")}
+                                        </Link>
+                                        {isAdmin && (
+                                                <Link
+                                                        className='flex items-center gap-2 rounded-full bg-ali-card px-3 py-0.5 text-ali-ink transition duration-300 ease-in-out hover:bg-ali-rose/20 sm:py-2'
+                                                        to={'/secret-dashboard'}
+                                                >
+                                                        <Lock className='inline-block' size={18} />
+                                                        <span className='hidden sm:inline'>{t("nav.dashboard")}</span>
+                                                </Link>
+                                        )}
+                                </nav>
                         </div>
                 </header>
         );

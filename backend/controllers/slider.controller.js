@@ -94,22 +94,19 @@ const resolveOrder = async (requestedOrder) => {
 export const getSliderItems = async (req, res) => {
         try {
                 const onlyActive = String(req.query.active || "").toLowerCase() === "true";
-                const filter = {
-                        imageUrl: { $exists: true, $ne: "", $type: "string" },
-                        ...(onlyActive ? { isActive: true } : {}),
-                };
+                const filter = onlyActive ? { isActive: true } : {};
+                const sliders = await SliderItem.find(filter)
+                        .sort({ order: 1, createdAt: -1 })
+                        .lean()
+                        .then((items) =>
+                                items.map((item, index) => ({
+                                        ...item,
+                                        // عالج العناصر التي قد لا تملك قيمة للترتيب حتى لا يتم إسقاطها
+                                        order: Number.isFinite(item.order) ? Number(item.order) : 999 + index,
+                                }))
+                        );
 
-                const sliders = await SliderItem.find(filter).sort({ order: 1, createdAt: -1 }).lean();
-                const sanitizedSlides = (Array.isArray(sliders) ? sliders : [])
-                        .filter((item) => typeof item.imageUrl === "string" && item.imageUrl.trim() !== "")
-                        .map((item, index) => ({
-                                ...item,
-                                imageUrl: item.imageUrl.trim(),
-                                // عالج العناصر التي قد لا تملك قيمة للترتيب حتى لا يتم إسقاطها
-                                order: Number.isFinite(item.order) ? Number(item.order) : 999 + index,
-                        }));
-
-                res.json({ sliders: sanitizedSlides });
+                res.json({ sliders: Array.isArray(sliders) ? sliders : [] });
         } catch (error) {
                 console.log("Error in getSliderItems controller", error.message);
                 res.status(500).json({ message: "Server error", error: error.message });
