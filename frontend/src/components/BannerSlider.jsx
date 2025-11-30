@@ -1,15 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useSliderStore } from "../stores/useSliderStore";
-import useTranslation from "../hooks/useTranslation";
 
 const BannerSlider = () => {
         const [current, setCurrent] = useState(0);
-        const [slidesPerView, setSlidesPerView] = useState(1);
         const touchStartX = useRef(null);
         const { slides, fetchSlides } = useSliderStore();
-        const { i18n } = useTranslation();
-        const isArabic = i18n.language === "ar";
         const FALLBACK_IMAGE =
                 "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='600' viewBox='0 0 1600 600'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop stop-color='%23dbeafe' offset='0'/%3E%3Cstop stop-color='%23bfdbfe' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1600' height='600' fill='url(%23g)'/%3E%3Ctext x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%2325466b' font-family='Arial' font-size='48'%3ESlider%20image%20placeholder%3C/text%3E%3C/svg%3E";
 
@@ -37,22 +32,6 @@ const BannerSlider = () => {
                 fetchSlides();
         }, [fetchSlides]);
 
-        useEffect(() => {
-                const updateSlidesPerView = () => {
-                        const width = typeof window !== "undefined" ? window.innerWidth : 0;
-                        setSlidesPerView(width >= 1024 ? 3 : width >= 640 ? 2 : 1);
-                };
-
-                updateSlidesPerView();
-
-                if (typeof window !== "undefined") {
-                        window.addEventListener("resize", updateSlidesPerView);
-                        return () => window.removeEventListener("resize", updateSlidesPerView);
-                }
-
-                return undefined;
-        }, []);
-
         const sliderItems = useMemo(() => {
                 if (!Array.isArray(slides) || slides.length === 0) return [];
 
@@ -79,7 +58,7 @@ const BannerSlider = () => {
 
         const totalSlides = sliderItems.length;
         // Keep the number of visible slides within the available count to avoid empty frames
-        const effectiveSlidesPerView = Math.max(Math.min(slidesPerView, totalSlides || 1), 1);
+        const effectiveSlidesPerView = 1;
         const maxIndex = Math.max(totalSlides - effectiveSlidesPerView, 0);
 
         useEffect(() => {
@@ -154,37 +133,6 @@ const BannerSlider = () => {
                                                         </div>
                                                 ))}
                                         </div>
-
-                                        <div className='absolute bottom-3 left-0 right-0 flex justify-center gap-2'>
-                                                {sliderItems.map((_, dotIndex) => (
-                                                        <button
-                                                                key={dotIndex}
-                                                                type='button'
-                                                                aria-label={`الانتقال إلى الشريحة ${dotIndex + 1}`}
-                                                                className={`h-2 w-2 rounded-full transition ${
-                                                                        dotIndex === current ? "w-6 bg-white" : "bg-white/70"
-                                                                }`}
-                                                                onClick={() => goTo(dotIndex)}
-                                                        />
-                                                ))}
-                                        </div>
-
-                                        <button
-                                                type='button'
-                                                className='absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-ali-ink shadow hover:bg-white sm:left-4'
-                                                onClick={() => goTo(current - 1)}
-                                                aria-label='الشريحة السابقة'
-                                        >
-                                                {isArabic ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
-                                        </button>
-                                        <button
-                                                type='button'
-                                                className='absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-ali-ink shadow hover:bg-white sm:right-4'
-                                                onClick={() => goTo(current + 1)}
-                                                aria-label='الشريحة التالية'
-                                        >
-                                                {isArabic ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
-                                        </button>
                                 </>
                         ) : (
                                 <div className='h-[220px] w-full sm:h-[320px]' aria-hidden='true' />
