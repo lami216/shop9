@@ -12,9 +12,25 @@ const BannerSlider = () => {
         const FALLBACK_IMAGE =
                 "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='600' viewBox='0 0 1600 600'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop stop-color='%23dbeafe' offset='0'/%3E%3Cstop stop-color='%23bfdbfe' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1600' height='600' fill='url(%23g)'/%3E%3Ctext x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%2325466b' font-family='Arial' font-size='48'%3ESlider%20image%20placeholder%3C/text%3E%3C/svg%3E";
 
-        const isValidImageUrl = (value) =>
-                typeof value === "string" &&
-                (/^(https?:)?\/\//i.test(value.trim()) || /^data:image\//i.test(value.trim()));
+        const resolveImageUrl = (value) => {
+                if (typeof value !== "string") return "";
+
+                const trimmed = value.trim();
+                if (!trimmed) return "";
+
+                if (/^data:image\//i.test(trimmed)) return trimmed;
+                if (/^https?:\/\//i.test(trimmed)) return trimmed;
+
+                if (trimmed.startsWith("//")) {
+                        const protocol = typeof window !== "undefined" ? window.location.protocol : "https:";
+                        return `${protocol}${trimmed}`;
+                }
+
+                const baseOrigin = typeof window !== "undefined" ? window.location.origin : "";
+                if (trimmed.startsWith("/")) return `${baseOrigin}${trimmed}`;
+
+                return `${baseOrigin}/${trimmed}`;
+        };
 
         useEffect(() => {
                 fetchSlides(true);
@@ -28,20 +44,20 @@ const BannerSlider = () => {
                         .map((slide, index) => {
                                 const rawImageUrl =
                                         slide?.imageUrl ?? slide?.image ?? slide?.url ?? slide?.image?.url ?? "";
-                                const trimmedUrl = typeof rawImageUrl === "string" ? rawImageUrl.trim() : "";
+                                const resolvedUrl = resolveImageUrl(rawImageUrl);
 
                                 const parsedOrder = Number(slide?.order);
                                 const normalizedOrder = Number.isInteger(parsedOrder) ? parsedOrder : index;
 
                                 return {
                                         key: slide?._id || index,
-                                        imageUrl: trimmedUrl,
+                                        imageUrl: resolvedUrl,
                                         title: slide?.title || "",
                                         subtitle: slide?.subtitle || "",
                                         order: normalizedOrder,
                                 };
                         })
-                        .filter((slide) => slide.imageUrl !== "" && isValidImageUrl(slide.imageUrl))
+                        .filter((slide) => slide.imageUrl !== "")
                         .sort((a, b) => a.order - b.order);
         }, [slides]);
 
