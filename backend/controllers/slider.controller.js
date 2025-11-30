@@ -94,19 +94,43 @@ const resolveOrder = async (requestedOrder) => {
 export const getSliderItems = async (req, res) => {
         try {
                 const onlyActive = String(req.query.active || "").toLowerCase() === "true";
-                const filter = onlyActive ? { isActive: true } : {};
-                const sliders = await SliderItem.find(filter)
-                        .sort({ order: 1, createdAt: -1 })
-                        .lean()
-                        .then((items) =>
-                                items.map((item, index) => ({
-                                        ...item,
-                                        // عالج العناصر التي قد لا تملك قيمة للترتيب حتى لا يتم إسقاطها
-                                        order: Number.isFinite(item.order) ? Number(item.order) : 999 + index,
-                                }))
-                        );
+                const baseFilter = onlyActive ? { isActive: true } : {};
+                const fetchedItems = await SliderItem.find(baseFilter).lean();
 
-                res.json({ sliders: Array.isArray(sliders) ? sliders : [] });
+                const validItems = Array.isArray(fetchedItems)
+                        ? fetchedItems.filter(
+                                        (item) => typeof item?.imageUrl === "string" && item.imageUrl.trim() !== ""
+                                )
+                        : [];
+
+                const maxExplicitOrder = validItems.reduce((max, item) => {
+                        const parsed = Number(item?.order);
+                        return Number.isFinite(parsed) ? Math.max(max, parsed) : max;
+                }, -Infinity);
+
+                let implicitOrderCounter = 0;
+                const normalized = validItems.map((item) => {
+                        const parsedOrder = Number(item?.order);
+                        const safeOrder = Number.isFinite(parsedOrder)
+                                ? parsedOrder
+                                : (Number.isFinite(maxExplicitOrder) ? maxExplicitOrder : 0) + ++implicitOrderCounter;
+
+                        return {
+                                ...item,
+                                imageUrl: item.imageUrl.trim(),
+                                order: safeOrder,
+                        };
+                });
+
+                const sliders = normalized.sort((a, b) => {
+                        if (a.order !== b.order) return a.order - b.order;
+
+                        const aCreated = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                        const bCreated = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                        return bCreated - aCreated;
+                });
+
+                res.json({ sliders });
         } catch (error) {
                 console.log("Error in getSliderItems controller", error.message);
                 res.status(500).json({ message: "Server error", error: error.message });

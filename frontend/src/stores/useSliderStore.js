@@ -13,8 +13,12 @@ export const useSliderStore = create((set) => ({
                 try {
                         const query = onlyActive ? "?active=true" : "";
                         const data = await apiClient.get(`/sliders${query}`);
-                        const sliders = Array.isArray(data) ? data : data?.sliders;
-                        set({ slides: sliders ?? [], loading: false });
+                        const sliders = Array.isArray(data?.sliders)
+                                ? data.sliders
+                                : Array.isArray(data)
+                                  ? data
+                                  : [];
+                        set({ slides: sliders, loading: false });
                 } catch (error) {
                         set({ loading: false, error: error.response?.data?.message || "Failed to fetch sliders" });
                         toast.error(translate("toast.sliderFetchError"));

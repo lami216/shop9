@@ -19,15 +19,24 @@ const BannerSlider = () => {
 
                 return [...slides]
                         .filter((slide) => slide?.isActive !== false)
-                        .map((slide, index) => ({
-                                key: slide._id || index,
-                                imageUrl: slide.imageUrl ?? slide.image ?? slide.url ?? slide?.image?.url,
-                                title: slide.title || "",
-                                subtitle: slide.subtitle || "",
-                                order: Number.isFinite(slide.order) ? Number(slide.order) : index,
-                        }))
-                        .filter((slide) => Boolean(slide.imageUrl))
-                        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+                        .map((slide, index) => {
+                                const rawImageUrl =
+                                        slide?.imageUrl ?? slide?.image ?? slide?.url ?? slide?.image?.url ?? "";
+                                const trimmedUrl = typeof rawImageUrl === "string" ? rawImageUrl.trim() : "";
+
+                                const parsedOrder = Number(slide?.order);
+                                const normalizedOrder = Number.isInteger(parsedOrder) ? parsedOrder : index;
+
+                                return {
+                                        key: slide?._id || index,
+                                        imageUrl: trimmedUrl,
+                                        title: slide?.title || "",
+                                        subtitle: slide?.subtitle || "",
+                                        order: normalizedOrder,
+                                };
+                        })
+                        .filter((slide) => slide.imageUrl !== "")
+                        .sort((a, b) => a.order - b.order);
         }, [slides]);
 
         const totalSlides = sliderItems.length;
@@ -48,7 +57,8 @@ const BannerSlider = () => {
 
         const goTo = (index) => {
                 if (!totalSlides) return;
-                setCurrent((index + totalSlides) % totalSlides);
+                const safeIndex = ((index % totalSlides) + totalSlides) % totalSlides;
+                setCurrent(safeIndex);
         };
 
         const handleTouchStart = (event) => {
