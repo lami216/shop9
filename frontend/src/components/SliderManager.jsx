@@ -94,9 +94,11 @@ const SliderManager = () => {
                         isActive: formState.isActive,
                 };
 
-                const numericOrder = formState.order === "" ? null : Number(formState.order);
-                if (!Number.isNaN(numericOrder) && numericOrder !== null) {
-                        payload.order = numericOrder;
+                if (selectedSlide) {
+                        const numericOrder = formState.order === "" ? null : Number(formState.order);
+                        if (!Number.isNaN(numericOrder) && numericOrder !== null) {
+                                payload.order = numericOrder;
+                        }
                 }
 
                 if (!selectedSlide && !formState.image) {
@@ -202,24 +204,26 @@ const SliderManager = () => {
                                         </div>
 
                                         <div className='grid gap-5 md:grid-cols-2'>
-                                                <div>
-                                                        <label className='block text-sm font-medium text-ali-ink' htmlFor='slider-order'>
-                                                                {t("slider.form.order")}
-                                                        </label>
-                                                        <input
-                                                                id='slider-order'
-                                                                type='number'
-                                                                min='0'
-                                                                className='mt-1 block w-full rounded-md border border-ali-card bg-white px-3 py-2 text-ali-ink focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
-                                                                value={formState.order}
-                                                                onChange={(event) =>
-                                                                        setFormState((previous) => ({
-                                                                                ...previous,
-                                                                                order: event.target.value,
-                                                                        }))
-                                                                }
-                                                        />
-                                                </div>
+                                                {selectedSlide && (
+                                                        <div>
+                                                                <label className='block text-sm font-medium text-ali-ink' htmlFor='slider-order'>
+                                                                        {t("slider.form.order")}
+                                                                </label>
+                                                                <input
+                                                                        id='slider-order'
+                                                                        type='number'
+                                                                        min='0'
+                                                                        className='mt-1 block w-full rounded-md border border-ali-card bg-white px-3 py-2 text-ali-ink focus:border-payzone-gold focus:outline-none focus:ring-2 focus:ring-payzone-indigo'
+                                                                        value={formState.order}
+                                                                        onChange={(event) =>
+                                                                                setFormState((previous) => ({
+                                                                                        ...previous,
+                                                                                        order: event.target.value,
+                                                                                }))
+                                                                        }
+                                                                />
+                                                        </div>
+                                                )}
                                                 <div className='flex flex-col gap-2'>
                                                         <span className='text-sm font-medium text-ali-ink'>{t("slider.form.isActive")}</span>
                                                         <label className='inline-flex items-center gap-2 text-sm text-ali-muted'>

@@ -21,12 +21,18 @@ const ensureUploadResult = (uploadResult) => {
 };
 
 const resolveOrder = async (requestedOrder) => {
-        if (requestedOrder === undefined || requestedOrder === null || Number.isNaN(Number(requestedOrder))) {
-                const count = await SliderItem.countDocuments();
-                return count;
+        if (requestedOrder !== undefined && requestedOrder !== null && !Number.isNaN(Number(requestedOrder))) {
+                return Number(requestedOrder);
         }
 
-        return Number(requestedOrder);
+        const latestOrderedItem = await SliderItem.findOne({ order: { $ne: null } })
+                .sort({ order: -1, createdAt: -1 })
+                .select("order")
+                .lean();
+
+        const highestOrder = Number.isFinite(latestOrderedItem?.order) ? Number(latestOrderedItem.order) : 0;
+
+        return highestOrder + 1;
 };
 
 export const getSliderItems = async (req, res) => {
