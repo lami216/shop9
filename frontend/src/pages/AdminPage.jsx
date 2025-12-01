@@ -1,13 +1,4 @@
-import {
-        BarChart,
-        PlusCircle,
-        ShoppingBasket,
-        FolderTree,
-        TicketPercent,
-        ClipboardList,
-        LayoutGrid,
-        Images,
-} from "lucide-react";
+import { BarChart, PlusCircle, ShoppingBasket, FolderTree, ClipboardList, LayoutGrid, Images } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import useTranslation from "../hooks/useTranslation";
@@ -17,7 +8,6 @@ import CreateProductForm from "../components/CreateProductForm";
 import ProductsList from "../components/ProductsList";
 import CategoryManager from "../components/CategoryManager";
 import SectionManager from "../components/SectionManager";
-import AdminCoupons from "../components/AdminCoupons";
 import AdminOrders from "../components/AdminOrders";
 import SliderManager from "../components/SliderManager";
 import { useProductStore } from "../stores/useProductStore";
@@ -40,7 +30,6 @@ const AdminPage = () => {
                         { id: "categories", label: t("admin.tabs.categories"), icon: FolderTree },
                         { id: "analytics", label: t("admin.tabs.analytics"), icon: BarChart },
                         { id: "orders", label: t("admin.tabs.orders"), icon: ClipboardList },
-                        { id: "coupons", label: t("admin.tabs.coupons"), icon: TicketPercent },
                 ],
                 [t]
         );
@@ -76,13 +65,12 @@ const AdminPage = () => {
                                         </div>
                                 </div>
                                 {activeTab === "create" && <CreateProductForm />}
-                        {activeTab === "products" && <ProductsList onEdit={() => setActiveTab("create")} />}
-                        {activeTab === "sections" && <SectionManager />}
-                        {activeTab === "slider" && <SliderManager />}
-                        {activeTab === "categories" && <CategoryManager />}
-                        {activeTab === "analytics" && <AnalyticsTab />}
+                                {activeTab === "products" && <ProductsList onEdit={() => setActiveTab("create")} />}
+                                {activeTab === "sections" && <SectionManager />}
+                                {activeTab === "slider" && <SliderManager />}
+                                {activeTab === "categories" && <CategoryManager />}
+                                {activeTab === "analytics" && <AnalyticsTab />}
                                 {activeTab === "orders" && <AdminOrders />}
-                                {activeTab === "coupons" && <AdminCoupons />}
                         </div>
                 </div>
         );

@@ -15,7 +15,6 @@ const CheckoutPage = () => {
         const navigate = useNavigate();
         const [customerName, setCustomerName] = useState("");
         const [whatsAppNumber, setWhatsAppNumber] = useState("");
-        const [address, setAddress] = useState("");
         const [whatsAppError, setWhatsAppError] = useState("");
         const [isSubmitting, setIsSubmitting] = useState(false);
         const { t } = useTranslation();
@@ -40,7 +39,7 @@ const CheckoutPage = () => {
 
         const normalizedWhatsAppNumber = whatsAppNumber.replaceAll(/\D/g, "");
         const isWhatsAppValid = /^\d{8,15}$/.test(normalizedWhatsAppNumber);
-        const isFormValid = customerName.trim() !== "" && address.trim() !== "" && cart.length > 0 && isWhatsAppValid;
+        const isFormValid = customerName.trim() !== "" && cart.length > 0 && isWhatsAppValid;
 
         const handleWhatsAppChange = (event) => {
                 const value = event.target.value;
@@ -81,7 +80,7 @@ const CheckoutPage = () => {
                         return;
                 }
 
-                if (!customerName.trim() || !whatsAppNumber.trim() || !address.trim()) {
+                if (!customerName.trim() || !whatsAppNumber.trim()) {
                         toast.error(t("common.messages.fillAllFields"));
                         return;
                 }
@@ -104,7 +103,6 @@ const CheckoutPage = () => {
                 const baseOrderDetails = {
                         customerName: customerName.trim(),
                         phone: sanitizedPhone,
-                        address: address.trim(),
                         items: cart.map((item) => {
                                 const { price, discountedPrice, discountPercentage, isDiscounted } =
                                         getProductPricing(item);
@@ -135,7 +133,6 @@ const CheckoutPage = () => {
                         })),
                         customerName: baseOrderDetails.customerName,
                         phone: sanitizedPhone,
-                        address: baseOrderDetails.address,
                 };
 
                 if (coupon?.code && isCouponApplied) {
@@ -184,7 +181,6 @@ const CheckoutPage = () => {
                                 t("checkout.messages.newOrder", { name: baseOrderDetails.customerName }),
                                 t("checkout.messages.orderNumber", { number: formatNumberEn(orderNumber) }),
                                 t("checkout.messages.customerWhatsApp", { number: sanitizedPhone }),
-                                t("checkout.messages.address", { address: baseOrderDetails.address }),
                                 "",
                                 t("checkout.messages.productsHeader"),
                                 ...productsSummary,
@@ -257,7 +253,10 @@ const CheckoutPage = () => {
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ duration: 0.4 }}
                                 >
-                                        <h1 className='mb-6 text-2xl font-bold text-ali-ink'>{t("checkout.title")}</h1>
+                                        <h1 className='mb-3 text-2xl font-bold text-ali-ink'>{t("checkout.title")}</h1>
+                                        <p className='mb-6 text-center text-sm leading-relaxed text-ali-muted'>
+                                                {t("checkout.instructions")}
+                                        </p>
                                         <form className='space-y-5' onSubmit={handleSubmit}>
                                                 <div className='space-y-2'>
                                                         <label className='block text-sm font-medium text-ali-ink' htmlFor='customerName'>
@@ -288,21 +287,6 @@ const CheckoutPage = () => {
                                                                 required
                                                         />
                                                         {whatsAppError && <p className='text-sm text-ali-red'>{whatsAppError}</p>}
-                                                </div>
-
-                                                <div className='space-y-2'>
-                                                        <label className='block text-sm font-medium text-ali-ink' htmlFor='address'>
-                                                                {t("checkout.form.address")}
-                                                        </label>
-                                                        <textarea
-                                                                id='address'
-                                                                value={address}
-                                                                onChange={(event) => setAddress(event.target.value)}
-                                                                rows={4}
-                                                                className='w-full rounded-lg border border-ali-card bg-white px-4 py-2 text-ali-ink placeholder-ali-muted/70 focus:border-ali-rose focus:outline-none focus:ring-2 focus:ring-ali-rose'
-                                                                placeholder={t("checkout.form.addressPlaceholder")}
-                                                                required
-                                                        />
                                                 </div>
 
                                                 <motion.button

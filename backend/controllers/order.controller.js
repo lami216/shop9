@@ -102,7 +102,7 @@ const extractWhatsAppPayload = (body = {}) => {
         };
 };
 
-const ensureOrderBasics = ({ items, customerName, phone, address }) => {
+const ensureOrderBasics = ({ items, customerName, phone }) => {
         if (!items.length) {
                 throw createHttpError(400, "Order must contain at least one item");
         }
@@ -111,9 +111,6 @@ const ensureOrderBasics = ({ items, customerName, phone, address }) => {
         }
         if (!phone) {
                 throw createHttpError(400, "Phone number is required");
-        }
-        if (!address) {
-                throw createHttpError(400, "Address is required");
         }
 };
 
