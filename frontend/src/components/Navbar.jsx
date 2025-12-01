@@ -88,14 +88,14 @@ const Navbar = () => {
                                                         <>
                                                                 <Link
                                                                         to={'/signup'}
-                                                                        className='flex items-center gap-2 rounded-full bg-white px-3 py-0 font-semibold text-ali-ink shadow-sm ring-1 ring-ali-card transition duration-300 ease-in-out hover:shadow sm:px-4 sm:py-1'
+                                                                        className='flex items-center gap-1.5 rounded-full bg-white px-2 py-1 text-xs font-semibold text-ali-ink shadow-sm ring-1 ring-ali-card transition duration-300 ease-in-out hover:shadow sm:gap-2 sm:px-4 sm:py-1 sm:text-sm'
                                                                 >
                                                                         <UserPlus size={18} />
                                                                         {t("nav.signup")}
                                                                 </Link>
                                                                 <Link
                                                                         to={'/login'}
-                                                                        className='flex items-center gap-2 rounded-full bg-gradient-to-r from-ali-red to-ali-rose px-3 py-0 text-white shadow-lg transition duration-300 ease-in-out hover:shadow-xl sm:px-4 sm:py-1'
+                                                                        className='flex items-center gap-1.5 rounded-full bg-gradient-to-r from-ali-red to-ali-rose px-2 py-1 text-xs text-white shadow-lg transition duration-300 ease-in-out hover:shadow-xl sm:gap-2 sm:px-4 sm:py-1 sm:text-sm'
                                                                 >
                                                                         <LogIn size={18} />
                                                                         {t("nav.login")}
