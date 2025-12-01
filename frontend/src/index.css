@@ -62,3 +62,62 @@
         outline: 2px solid #fbbf24;
         outline-offset: 2px;
 }
+
+@media (max-width: 768px) {
+        .mobile-navbar {
+                gap: 0.5rem;
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+        }
+
+        .mobile-navbar,
+        .mobile-navbar .brand-section,
+        .mobile-navbar .nav-actions,
+        .mobile-navbar .auth-actions,
+        .mobile-navbar .nav-links {
+                flex-wrap: nowrap;
+        }
+
+        .mobile-navbar .brand-section {
+                gap: 0.5rem;
+        }
+
+        .mobile-navbar .brand-name {
+                font-size: 1rem;
+                line-height: 1.1;
+        }
+
+        .mobile-navbar .nav-links {
+                gap: 0.5rem;
+        }
+
+        .mobile-navbar .nav-actions,
+        .mobile-navbar .auth-actions {
+                gap: 0.4rem;
+        }
+
+        .mobile-navbar .auth-button {
+                padding: 0.3rem 0.55rem;
+                font-size: 0.78rem;
+                line-height: 1.15;
+        }
+
+        .mobile-navbar .auth-button svg {
+                width: 16px;
+                height: 16px;
+        }
+
+        .mobile-navbar .cart-link {
+                padding: 0.25rem 0.55rem;
+        }
+
+        .mobile-navbar .cart-link svg {
+                width: 16px;
+                height: 16px;
+        }
+
+        .mobile-navbar .cart-link .absolute {
+                font-size: 0.7rem;
+                padding: 0.2rem 0.45rem;
+        }
+}
