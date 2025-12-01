@@ -63,8 +63,9 @@
         outline-offset: 2px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 640px) {
         .mobile-navbar {
+                --auth-mobile-scale: 0.5;
                 gap: 0.5rem;
                 padding-left: 0.75rem;
                 padding-right: 0.75rem;
@@ -93,18 +94,13 @@
 
         .mobile-navbar .nav-actions,
         .mobile-navbar .auth-actions {
-                gap: 0.4rem;
+                gap: calc(0.5rem * var(--auth-mobile-scale));
         }
 
         .mobile-navbar .auth-button {
-                padding: 0.3rem 0.55rem;
-                font-size: 0.78rem;
-                line-height: 1.15;
-        }
-
-        .mobile-navbar .auth-button svg {
-                width: 16px;
-                height: 16px;
+                transform: scale(var(--auth-mobile-scale));
+                transform-origin: center;
+                margin-inline: calc((1 - var(--auth-mobile-scale)) * -0.35em);
         }
 
         .mobile-navbar .cart-link {
