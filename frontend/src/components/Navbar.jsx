@@ -15,7 +15,7 @@ const Navbar = () => {
         const cartLink = (
                 <Link
                         to={'/cart'}
-                        className='relative group flex items-center gap-2 rounded-full bg-gradient-to-r from-ali-red to-ali-rose px-3 py-0.5 text-sm font-semibold text-white shadow-lg transition duration-300 ease-in-out hover:shadow-xl sm:px-4 sm:py-1'
+                        className='relative group flex items-center gap-2 rounded-full bg-gradient-to-r from-ali-red to-ali-rose px-3 py-0 text-sm font-semibold text-white shadow-lg transition duration-300 ease-in-out hover:shadow-xl sm:px-4 sm:py-1'
                 >
                         <ShoppingCart size={18} />
                         <span className='hidden sm:inline'>{t("nav.cart")}</span>
@@ -33,13 +33,13 @@ const Navbar = () => {
                         className='fixed top-0 right-0 z-40 w-full border-b border-ali-card/80 bg-white/90 backdrop-blur-xl shadow-md transition-all duration-300'
                 >
                         <div
-                                className={`mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-1 sm:gap-4 sm:px-6 ${
+                                className={`mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-1 sm:px-6 ${
                                         isArabic ? "flex-row-reverse" : "flex-row"
                                 }`}
                         >
                                 <div
-                                        className={`flex flex-shrink-0 items-center gap-2 ${
-                                                isArabic ? "flex-row-reverse" : "flex-row"
+                                        className={`flex flex-1 items-center gap-4 ${
+                                                isArabic ? "flex-row-reverse justify-end" : "flex-row justify-start"
                                         }`}
                                 >
                                         <Link to='/' className='flex items-center gap-2 text-ali-ink'>
@@ -48,60 +48,62 @@ const Navbar = () => {
                                                         alt='شعار علي ستور'
                                                         className='h-7 w-7 rounded-full object-cover shadow sm:h-9 sm:w-9'
                                                 />
-                                                <span className='whitespace-nowrap text-lg font-bold leading-none sm:text-xl'>
+                                                <span className='text-lg font-bold leading-none sm:text-xl'>
                                                         {t("common.appName")}
                                                 </span>
                                         </Link>
+
+                                        <nav className='flex items-center gap-3 text-sm font-medium text-ali-muted'>
+                                                <Link
+                                                        to={'/'}
+                                                        className='rounded-full px-3 py-0.5 transition duration-300 ease-in-out hover:bg-ali-card hover:text-ali-ink sm:py-1.5'
+                                                >
+                                                        {t("nav.home")}
+                                                </Link>
+                                                {isAdmin && (
+                                                        <Link
+                                                                className='flex items-center gap-2 rounded-full bg-ali-card px-3 py-0.5 text-ali-ink transition duration-300 ease-in-out hover:bg-ali-rose/20 sm:py-2'
+                                                                to={'/secret-dashboard'}
+                                                        >
+                                                                <Lock className='inline-block' size={18} />
+                                                                <span className='hidden sm:inline'>{t("nav.dashboard")}</span>
+                                                        </Link>
+                                                )}
+                                        </nav>
                                 </div>
 
-                                <nav
-                                        className={`flex flex-1 flex-nowrap items-center justify-end gap-2 text-sm font-medium text-ali-muted sm:gap-3 ${
-                                                isArabic ? "flex-row-reverse" : "flex-row"
-                                        }`}
-                                >
-                                        <Link
-                                                to={'/'}
-                                                className='rounded-full px-3 py-0.5 transition duration-300 ease-in-out hover:bg-ali-card hover:text-ali-ink sm:py-1.5'
-                                        >
-                                                {t("nav.home")}
-                                        </Link>
-                                        {isAdmin && (
-                                                <Link
-                                                        className='flex items-center gap-2 rounded-full bg-ali-card px-3 py-0.5 text-ali-ink transition duration-300 ease-in-out hover:bg-ali-rose/20 sm:py-2'
-                                                        to={'/secret-dashboard'}
-                                                >
-                                                        <Lock className='inline-block' size={18} />
-                                                        <span className='hidden sm:inline'>{t("nav.dashboard")}</span>
-                                                </Link>
-                                        )}
-                                        {user ? (
-                                                <button
-                                                        className='flex items-center gap-2 rounded-full bg-ali-card px-3 py-0.5 text-ali-ink shadow-sm transition duration-300 ease-in-out hover:shadow sm:px-4 sm:py-1'
-                                                        onClick={logout}
-                                                >
-                                                        <LogOut size={18} />
-                                                        <span className='hidden sm:inline'>{t("nav.logout")}</span>
-                                                </button>
-                                        ) : (
-                                                <>
-                                                        <Link
-                                                                to={'/signup'}
-                                                                className='flex items-center gap-1.5 rounded-full bg-white px-3 py-0.5 text-sm font-semibold text-ali-ink shadow-sm ring-1 ring-ali-card transition duration-300 ease-in-out hover:shadow sm:gap-2 sm:px-4 sm:py-1'
+                                <div className={`flex items-center gap-2 sm:gap-3 ${isArabic ? "flex-row" : "flex-row"}`}>
+                                        {cartLink && <div>{cartLink}</div>}
+
+                                        <div className='flex items-center gap-2 sm:gap-3'>
+                                                {user ? (
+                                                        <button
+                                                                className='flex items-center gap-2 rounded-full bg-ali-card px-3 py-0 text-ali-ink shadow-sm transition duration-300 ease-in-out hover:shadow sm:px-4 sm:py-1'
+                                                                onClick={logout}
                                                         >
-                                                                <UserPlus size={18} />
-                                                                {t("nav.signup")}
-                                                        </Link>
-                                                        <Link
-                                                                to={'/login'}
-                                                                className='flex items-center gap-1.5 rounded-full bg-gradient-to-r from-ali-red to-ali-rose px-3 py-0.5 text-sm text-white shadow-lg transition duration-300 ease-in-out hover:shadow-xl sm:gap-2 sm:px-4 sm:py-1'
-                                                        >
-                                                                <LogIn size={18} />
-                                                                {t("nav.login")}
-                                                        </Link>
-                                                </>
-                                        )}
-                                        {cartLink && <div className='flex-shrink-0'>{cartLink}</div>}
-                                </nav>
+                                                                <LogOut size={18} />
+                                                                <span className='hidden sm:inline'>{t("nav.logout")}</span>
+                                                        </button>
+                                                ) : (
+                                                        <>
+                                                                <Link
+                                                                        to={'/signup'}
+                                                                        className='flex items-center gap-1.5 rounded-full bg-white px-2 py-1 text-xs font-semibold text-ali-ink shadow-sm ring-1 ring-ali-card transition duration-300 ease-in-out hover:shadow sm:gap-2 sm:px-4 sm:py-1 sm:text-sm'
+                                                                >
+                                                                        <UserPlus size={18} />
+                                                                        {t("nav.signup")}
+                                                                </Link>
+                                                                <Link
+                                                                        to={'/login'}
+                                                                        className='flex items-center gap-1.5 rounded-full bg-gradient-to-r from-ali-red to-ali-rose px-2 py-1 text-xs text-white shadow-lg transition duration-300 ease-in-out hover:shadow-xl sm:gap-2 sm:px-4 sm:py-1 sm:text-sm'
+                                                                >
+                                                                        <LogIn size={18} />
+                                                                        {t("nav.login")}
+                                                                </Link>
+                                                        </>
+                                                )}
+                                        </div>
+                                </div>
                         </div>
                 </header>
         );
